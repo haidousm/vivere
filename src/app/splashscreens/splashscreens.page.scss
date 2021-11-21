@@ -1,0 +1,43 @@
+.logo {
+  margin: 40px auto 0px auto;
+  width: 50%;
+}
+
+.splashscreen-slide {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 25px;
+}
+
+.splashscreen-slide p {
+  font-size: 0.8rem;
+}
+
+ion-slides {
+  --bullet-background: #5e5ce6;
+  --bullet-background-active: #e35ce6;
+}
+
+ion-button {
+  --background: linear-gradient(
+    180deg,
+    #5e5ce6 0%,
+    rgba(227, 92, 230, 0.72) 100%
+  );
+  --background-hover: linear-gradient(
+    180deg,
+    rgba(227, 92, 230, 0.72) 0%,
+    #5e5ce6 100%
+  );
+}
+
+.login-text {
+  font-size: 0.8rem;
+  text-align: center;
+}
+
+.login-text a {
+  color: #e35ce6;
+}
