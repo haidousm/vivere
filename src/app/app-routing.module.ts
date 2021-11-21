@@ -10,9 +10,18 @@ const routes: Routes = [
   {
     path: 'splashscreens',
     loadChildren: () =>
-      import('./splashscreens/splashscreens.module').then(
+      import('./pages/splashscreens/splashscreens.module').then(
         (m) => m.SplashscreensPageModule
       ),
+  },
+  {
+    path: 'signup',
+    loadChildren: () =>
+      import('./pages/signup/signup.module').then((m) => m.SignupPageModule),
+  },
+  {
+    path: 'login',
+    loadChildren: () => import('./pages/login/login.module').then( m => m.LoginPageModule)
   },
 ];
 

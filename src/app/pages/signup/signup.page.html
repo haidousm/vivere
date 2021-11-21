@@ -1,0 +1,79 @@
+<ion-content>
+  <ion-img src="assets/images/logo.png" class="logo"></ion-img>
+  <form [formGroup]="signupForm" (ngSubmit)="signup()" class="ion-padding">
+    <ion-slides #slides>
+      <ion-slide class="signup-part">
+        <ion-item>
+          <ion-label position="floating">First Name</ion-label>
+          <ion-input type="text" formControlName="firstName"></ion-input>
+        </ion-item>
+        <ion-item>
+          <ion-label position="floating">Last Name</ion-label>
+          <ion-input type="text" formControlName="lastName"></ion-input>
+        </ion-item>
+        <ion-item>
+          <ion-label position="floating">Email</ion-label>
+          <ion-input type="email" formControlName="email"></ion-input>
+        </ion-item>
+        <ion-item>
+          <ion-label position="floating">Password</ion-label>
+          <ion-input type="password" formControlName="password"></ion-input>
+        </ion-item>
+        <ion-item>
+          <ion-label position="floating">Confirm Password</ion-label>
+          <ion-input
+            type="password"
+            formControlName="confirmPassword"
+          ></ion-input>
+        </ion-item>
+        <ion-button
+          class="signup-btn"
+          [disabled]="!signupForm.valid"
+          expand="block"
+          size="medium"
+          (click)="slides.slideNext()"
+          >Next</ion-button
+        >
+      </ion-slide>
+      <ion-slide class="signup-part signup-part-2">
+        <ion-item>
+          <ion-label position="floating">Weight</ion-label>
+          <ion-input type="number" formControlName="weight"></ion-input>
+        </ion-item>
+        <ion-item>
+          <ion-label position="floating">Height</ion-label>
+          <ion-input type="number" formControlName="height"></ion-input>
+        </ion-item>
+        <ion-item>
+          <ion-label position="floating">Birthdate</ion-label>
+          <ion-datetime
+            displayFormat="MM/DD/YYYY"
+            formControlName="birthdate"
+          ></ion-datetime>
+        </ion-item>
+        <ion-item>
+          <ion-label position="floating">Goal Weight</ion-label>
+          <ion-input type="number" formControlName="goalWeight"></ion-input>
+        </ion-item>
+        <div>
+          <ion-button
+            class="signup-btn"
+            expand="block"
+            size="medium"
+            (click)="slides.slidePrev()"
+          >
+            <!-- previous icon -->
+            <ion-icon slot="icon-only" name="arrow-back"></ion-icon>
+          </ion-button>
+          <ion-button
+            type="submit"
+            class="signup-btn"
+            [disabled]="!signupForm.valid"
+            >Sign Up</ion-button
+          >
+        </div>
+      </ion-slide>
+    </ion-slides>
+  </form>
+  <p class="login-text">Already have an account? <a href="/login">Login</a></p>
+</ion-content>
