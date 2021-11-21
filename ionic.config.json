@@ -1,0 +1,7 @@
+{
+  "name": "Vivere",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular"
+}
