@@ -50,6 +50,10 @@ export class DiaryPage implements OnInit {
     slidesPerView: 6.5,
   };
 
+  caloricProgress = 0;
+  caloriesRemainingText = '';
+  timerHandler: number;
+
   constructor() {}
 
   ngOnInit() {}
@@ -61,6 +65,12 @@ export class DiaryPage implements OnInit {
   selectDay(day: Day) {
     this.days.forEach((d) => (d.selected = false));
     day.selected = true;
+    const maxCals = 2000;
+    this.caloricProgress =
+      ((Math.floor(Math.random() * 1000) + 1000) / maxCals) * 100;
+    this.caloriesRemainingText = `${
+      maxCals - Math.floor((this.caloricProgress / 100) * maxCals)
+    } calories rem.`;
   }
 }
 
