@@ -1,0 +1,55 @@
+ion-content {
+  --background: #000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+}
+
+.login-btn {
+  align-self: center;
+  margin-top: 20px;
+  --background: linear-gradient(
+    180deg,
+    #5e5ce6 0%,
+    rgba(227, 92, 230, 0.72) 100%
+  );
+  --background-hover: linear-gradient(
+    180deg,
+    rgba(227, 92, 230, 0.72) 0%,
+    #5e5ce6 100%
+  );
+  width: 60%;
+}
+
+ion-item {
+  width: 100%;
+  --background: transparent;
+}
+
+.content-container {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.logo {
+  margin-bottom: 50px !important;
+}
+
+.signup-text {
+  font-size: 0.8rem;
+  text-align: center;
+}
+
+.signup-text a {
+  color: #e35ce6;
+}
