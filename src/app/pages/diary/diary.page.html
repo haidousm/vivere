@@ -1,9 +1,35 @@
-<ion-header>
-  <ion-toolbar>
-    <ion-title>diary</ion-title>
-  </ion-toolbar>
-</ion-header>
-
-<ion-content>
-
+<ion-content fullscreen>
+  <div class="content-container">
+    <div class="date-picker-container">
+      <div class="month-picker">
+        <ion-icon
+          name="arrow-back"
+          class="arrow-back"
+          (click)="previousMonth()"
+        ></ion-icon>
+        <ion-label class="month-label"
+          >{{chosenMonth}} {{chosenYear}}</ion-label
+        >
+        <ion-icon
+          name="arrow-forward"
+          class="arrow-forward"
+          (click)="nextMonth()"
+        ></ion-icon>
+      </div>
+      <div class="day-picker">
+        <ion-slides [options]="slidesOptions">
+          <ion-slide *ngFor="let day of days">
+            <ion-chip
+              (click)="selectDay(day)"
+              class="day-chip"
+              [ngClass]="{'selected': day.selected}"
+            >
+              <ion-label class="day-chip-name">{{day.name}}</ion-label>
+              <ion-label class="day-chip-date">{{day.date}}</ion-label>
+            </ion-chip>
+          </ion-slide>
+        </ion-slides>
+      </div>
+    </div>
+  </div>
 </ion-content>
