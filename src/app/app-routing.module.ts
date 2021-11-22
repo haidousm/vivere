@@ -30,8 +30,8 @@ const routes: Routes = [
       import('./pages/tabs/tabs.module').then((m) => m.TabsPageModule),
   },
   {
-    path: 'homepage',
-    loadChildren: () => import('./pages/homepage/homepage.module').then( m => m.HomepagePageModule)
+    path: 'diary',
+    loadChildren: () => import('./pages/diary/diary.module').then( m => m.DiaryPageModule)
   },
 ];
 

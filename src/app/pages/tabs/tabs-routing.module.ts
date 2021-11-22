@@ -9,13 +9,21 @@ const routes: Routes = [
     component: TabsPage,
     children: [
       {
-        path: 'homepage',
+        path: 'diary',
         loadChildren: () =>
-          import('../homepage/homepage.module').then(
-            (m) => m.HomepagePageModule
-          ),
+          import('../diary/diary.module').then((m) => m.DiaryPageModule),
+      },
+      {
+        path: '',
+        redirectTo: '/tabs/diary',
+        pathMatch: 'full',
       },
     ],
+  },
+  {
+    path: '',
+    redirectTo: '/tabs/diary',
+    pathMatch: 'full',
   },
 ];
 
