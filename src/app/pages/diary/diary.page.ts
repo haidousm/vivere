@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { ModalController } from '@ionic/angular';
+import { FoodDetailsPage } from '../food-details/food-details.page';
 
 @Component({
   selector: 'app-diary',
@@ -46,15 +48,60 @@ export class DiaryPage implements OnInit {
     },
   ];
 
+  meals: Meal[] = [
+    {
+      name: 'Breakfast',
+      totalCalories: 300,
+      foodItems: [
+        {
+          name: 'Eggs',
+          calories: 100,
+        },
+        {
+          name: 'Bacon',
+          calories: 200,
+        },
+      ],
+    },
+    {
+      name: 'Lunch',
+      totalCalories: 500,
+      foodItems: [
+        {
+          name: 'Salad',
+          calories: 100,
+        },
+        {
+          name: 'Sandwich',
+          calories: 200,
+        },
+      ],
+    },
+    {
+      name: 'Dinner',
+      totalCalories: 700,
+      foodItems: [
+        {
+          name: 'Steak',
+          calories: 100,
+        },
+        {
+          name: 'Pasta',
+          calories: 200,
+        },
+      ],
+    },
+  ];
+
   slidesOptions = {
     slidesPerView: 6.5,
   };
 
   caloricProgress = 0;
-  caloriesRemainingText = '';
+  currentCalories = '';
   timerHandler: number;
 
-  constructor() {}
+  constructor(private modalController: ModalController) {}
 
   ngOnInit() {}
 
@@ -68,9 +115,17 @@ export class DiaryPage implements OnInit {
     const maxCals = 2000;
     this.caloricProgress =
       ((Math.floor(Math.random() * 1000) + 1000) / maxCals) * 100;
-    this.caloriesRemainingText = `${
-      maxCals - Math.floor((this.caloricProgress / 100) * maxCals)
-    } calories rem.`;
+    this.currentCalories = `${Math.floor(
+      (this.caloricProgress / 100) * maxCals
+    )} cal.`;
+  }
+
+  async selectFood(food: FoodItem) {
+    // create ionic modal with food details
+    const modal = await this.modalController.create({
+      component: FoodDetailsPage,
+    });
+    await modal.present();
   }
 }
 
@@ -78,4 +133,15 @@ interface Day {
   name: string;
   date: number;
   selected: boolean;
+}
+
+interface Meal {
+  name: string;
+  totalCalories: number;
+  foodItems: FoodItem[];
+}
+
+interface FoodItem {
+  name: string;
+  calories: number;
 }

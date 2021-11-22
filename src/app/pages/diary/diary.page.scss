@@ -2,7 +2,6 @@
   height: 100%;
   display: flex;
   flex-direction: column;
-  align-items: center;
 }
 
 .date-picker-container {
@@ -50,4 +49,23 @@
       background-color: #e35ce6;
     }
   }
+}
+
+.caloric-progress-container {
+  width: 80%;
+  height: auto;
+  align-self: center;
+}
+
+.meal-card-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid #fff;
+}
+
+.meal-food-item {
+  margin: 15px;
+  --background: #dea5a4;
+  --border-radius: 10px;
 }
