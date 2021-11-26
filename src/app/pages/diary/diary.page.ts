@@ -1,5 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { ModalController } from '@ionic/angular';
+import { Day } from 'src/app/types/Day';
+import { FoodItem } from 'src/app/types/FoodItem';
+import { Meal } from 'src/app/types/Meal';
 import { FoodDetailsPage } from '../food-details/food-details.page';
 
 @Component({
@@ -54,40 +57,70 @@ export class DiaryPage implements OnInit {
       totalCalories: 300,
       foodItems: [
         {
+          id: 1,
           name: 'Eggs',
-          calories: 100,
+          totalCalories: 100,
+          servingSize: 1,
+          servingUnit: 'egg',
+          numberOfServings: 1,
+          caloriesPerServing: 100,
         },
         {
+          id: 2,
           name: 'Bacon',
-          calories: 200,
+          totalCalories: 200,
+          servingSize: 1,
+          servingUnit: 'slice',
+          numberOfServings: 1,
+          caloriesPerServing: 200,
         },
       ],
     },
     {
       name: 'Lunch',
-      totalCalories: 500,
+      totalCalories: 700,
       foodItems: [
         {
+          id: 3,
           name: 'Salad',
-          calories: 100,
+          totalCalories: 300,
+          servingSize: 1,
+          servingUnit: '100g',
+          numberOfServings: 2,
+          caloriesPerServing: 150,
         },
         {
-          name: 'Sandwich',
-          calories: 200,
+          id: 4,
+          name: 'Chicken',
+          totalCalories: 400,
+          servingSize: 1,
+          servingUnit: '100g',
+          numberOfServings: 2,
+          caloriesPerServing: 200,
         },
       ],
     },
     {
       name: 'Dinner',
-      totalCalories: 700,
+      totalCalories: 800,
       foodItems: [
         {
+          id: 5,
           name: 'Steak',
-          calories: 100,
+          totalCalories: 500,
+          servingSize: 1,
+          servingUnit: '100g',
+          numberOfServings: 2,
+          caloriesPerServing: 250,
         },
         {
-          name: 'Pasta',
-          calories: 200,
+          id: 6,
+          name: 'Salad',
+          totalCalories: 300,
+          servingSize: 1,
+          servingUnit: '100g',
+          numberOfServings: 2,
+          caloriesPerServing: 150,
         },
       ],
     },
@@ -124,24 +157,10 @@ export class DiaryPage implements OnInit {
     // create ionic modal with food details
     const modal = await this.modalController.create({
       component: FoodDetailsPage,
+      componentProps: {
+        food,
+      },
     });
     await modal.present();
   }
-}
-
-interface Day {
-  name: string;
-  date: number;
-  selected: boolean;
-}
-
-interface Meal {
-  name: string;
-  totalCalories: number;
-  foodItems: FoodItem[];
-}
-
-interface FoodItem {
-  name: string;
-  calories: number;
 }
