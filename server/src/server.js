@@ -1,15 +1,23 @@
 const express = require("express");
-const mongoose = require("mongoose");
-const app = express();
 
-const mongoUri = `mongodb+srv://new-user_31:lana123@cluster0.x4n3c.mongodb.net/vivere?retryWrites=true&w=majority`;
-mongoose.connect(mongoUri, { useNewUrlParser: true, useUnifiedTopology: true });
+const mongoose = require("mongoose");
+const connectDB = require("./config/db");
+
+const path = require("path");
+require("dotenv").config({
+    path: path.resolve(__dirname, "./config/config.env"),
+});
+
+connectDB();
+
+const app = express();
+const PORT = process.env.PORT;
 
 app.use(express.json());
 
+app.use("/auth", require("./routes/auth"));
 app.use("/users", require("./routes/users"));
 app.use("/food", require("./routes/food"));
 app.use("/meals", require("./routes/meals"));
 
-const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => console.log(`Listening on port ${PORT}`));
