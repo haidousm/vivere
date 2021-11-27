@@ -1,0 +1,63 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-button (click)="dismiss()">
+        <ion-icon slot="icon-only" name="close"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+    <ion-buttons slot="end">
+      <ion-button color="primary" (click)="saveChanges()">
+        <ion-icon slot="icon-only" name="checkmark-circle-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+<ion-content>
+  <ion-card>
+    <ion-card-header>
+      <ion-card-title> {{ food.name }} </ion-card-title>
+    </ion-card-header>
+    <ion-card-content>
+      <ion-grid>
+        <ion-row>
+          <ion-col>
+            <ion-card-title> Total Calories </ion-card-title>
+            <ion-card-subtitle> {{ food.totalCalories }} </ion-card-subtitle>
+          </ion-col>
+        </ion-row>
+        <ion-row>
+          <ion-col>
+            <ion-card-title> Serving Size </ion-card-title>
+            <ion-card-subtitle> {{ food.servingSize }} </ion-card-subtitle>
+          </ion-col>
+          <ion-col>
+            <ion-card-title> Calories / Serving </ion-card-title>
+            <ion-card-subtitle>
+              {{ food.caloriesPerServing }}
+            </ion-card-subtitle>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+    </ion-card-content>
+  </ion-card>
+  <ion-card>
+    <ion-card-header>
+      <ion-card-title> Number of Servings </ion-card-title>
+    </ion-card-header>
+    <ion-card-content>
+      <ion-item>
+        <ion-input
+          type="number"
+          value="{{ food.numberOfServings > 0 ? food.numberOfServings : 1 }}"
+          (ionChange)="inputChanged($event)"
+        ></ion-input>
+        <!-- <ion-button slot="end" (click)="decreaseServings()" color="danger">
+          -
+        </ion-button>
+        <ion-button slot="end" (click)="increaseServings()" color="success">
+          +
+        </ion-button> -->
+      </ion-item>
+    </ion-card-content>
+  </ion-card>
+</ion-content>

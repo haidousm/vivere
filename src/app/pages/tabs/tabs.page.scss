@@ -1,0 +1,26 @@
+ion-tab-button {
+  --color-selected: #e35ce6;
+}
+
+.plus-fab-btn {
+  --background: linear-gradient(
+    180deg,
+    #5e5ce6 0%,
+    rgba(227, 92, 230, 0.72) 100%
+  );
+  --color: #fff;
+}
+
+ion-fab-list {
+  ion-fab-button:first-child {
+    --background: #5e5ce6;
+  }
+
+  ion-fab-button {
+    --background: #e35ce6;
+    color: #fff;
+  }
+  ion-fab-button ion-icon {
+    font-size: 1.5rem;
+  }
+}

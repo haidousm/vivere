@@ -1,0 +1,72 @@
+.content-container {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.date-picker-container {
+  width: 100%;
+  background-color: rgb(44, 44, 44);
+  border-radius: 0 0 20px 20px;
+
+  padding: 15px 3px;
+  display: flex;
+  flex-direction: column;
+
+  .month-picker {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+
+    margin: 15px 0px;
+
+    .arrow-back,
+    .arrow-forward {
+      border-radius: 50%;
+      box-shadow: 0px 0px 5px 1px rgba(0, 0, 0, 0.5);
+    }
+  }
+
+  .day-picker {
+    width: 100%;
+    .day-chip {
+      display: flex;
+      flex-direction: column;
+      min-width: 15px;
+      height: 150%;
+      padding: 10px 10px;
+      .day-chip-name {
+        font-size: 0.6rem;
+        margin: 5px;
+      }
+      .day-chip-date {
+        font-weight: bold;
+      }
+    }
+
+    .day-chip.selected {
+      background-color: #e35ce6;
+    }
+  }
+}
+
+.caloric-progress-container {
+  width: 80%;
+  height: auto;
+  align-self: center;
+}
+
+.meal-card-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid #fff;
+}
+
+.meal-food-item {
+  margin: 15px;
+  --background: white;
+  --border-radius: 10px;
+  --color: black;
+}
