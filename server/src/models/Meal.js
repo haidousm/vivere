@@ -5,6 +5,10 @@ const MealSchema = new mongoose.Schema({
         type: String,
         required: true,
     },
+    date: {
+        type: Date,
+        required: true,
+    },
     foodItems: {
         type: [
             {
@@ -12,15 +16,11 @@ const MealSchema = new mongoose.Schema({
                 ref: "FoodItem",
             },
         ],
-        required: true,
+        required: false,
     },
     user: {
         type: mongoose.Schema.Types.ObjectId,
         ref: "User",
         required: true,
-    },
-    createdAt: {
-        type: Date,
-        default: Date.now,
     },
 });
