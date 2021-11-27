@@ -154,7 +154,6 @@ export class DiaryPage implements OnInit {
   }
 
   async selectFood(food: FoodItem) {
-    // create ionic modal with food details
     const modal = await this.modalController.create({
       component: FoodDetailsPage,
       componentProps: {
