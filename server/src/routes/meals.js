@@ -1,16 +1,18 @@
 const express = require("express");
 const Meal = require("../models/meal");
+const User = require("../models/user");
 const router = express.Router();
 
 /**
- * @route   GET /meal/:userId
+ * @route   GET /meal/:username
  * @desc    Get meals for a user
- * @params  userId - user id
+ * @params  username - username
  * @access  Public
  */
 
-router.get("/:userId", async (req, res) => {
-    const meals = await Meal.find({ user: req.params.userId });
+router.get("/:username", async (req, res) => {
+    const user = await User.findOne({ username: req.params.username });
+    const meals = await Meal.find({ user: user._id });
     return res.json(meals);
 });
 
@@ -21,8 +23,9 @@ router.get("/:userId", async (req, res) => {
  * @access  Public
  */
 router.post("/", async (req, res) => {
+    const user = await User.findOne({ username: req.body.username });
     const newMeal = new Meal({
-        user: req.body.userId,
+        user: user._id,
         name: req.body.name,
         date: req.body.date,
     });

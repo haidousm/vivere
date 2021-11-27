@@ -24,3 +24,5 @@ const MealSchema = new mongoose.Schema({
         required: true,
     },
 });
+
+module.exports = mongoose.model("Meal", MealSchema);
