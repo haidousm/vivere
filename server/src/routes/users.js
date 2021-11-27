@@ -3,17 +3,17 @@ const router = express.Router();
 const User = require("../models/user");
 
 /**
- * @route   GET /user/:userId
+ * @route   GET /user/:username
  * @desc    Get user
- * @params  userId - user id
+ * @params  username - user username
  * @access  Public
  */
-router.get("/:userId", async (req, res) => {
-    const user = await User.findById(req.params.userId);
+router.get("/:username", async (req, res) => {
+    const user = await User.findOne({ username: req.params.username });
     if (!user)
         return res
             .status(404)
-            .send("The user with the given ID was not found.");
+            .send("The user with the given username was not found.");
     res.json(user);
 });
 
