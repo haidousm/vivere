@@ -8,15 +8,7 @@ mongoose.connect(mongoUri, { useNewUrlParser: true, useUnifiedTopology: true });
 
 app.use(express.json());
 
-app.get("/", (req, res) => {
-    FoodItem.find({}, (err, foodItems) => {
-        if (err) {
-            res.status(500).send(err);
-        } else {
-            res.send(foodItems);
-        }
-    });
-});
+app.use("/food", require("./routes/food"));
 
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => console.log(`Listening on port ${PORT}`));
