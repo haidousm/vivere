@@ -9,12 +9,6 @@ import { SearchPageRoutingModule } from './search-routing.module';
 import { SearchPage } from './search.page';
 
 @NgModule({
-  imports: [
-    CommonModule,
-    FormsModule,
-    IonicModule,
-    SearchPageRoutingModule
-  ],
-  declarations: [SearchPage]
+  imports: [CommonModule, FormsModule, IonicModule, SearchPageRoutingModule],
 })
 export class SearchPageModule {}

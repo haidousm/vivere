@@ -1,9 +1,14 @@
-<ion-header>
-  <ion-toolbar>
-    <ion-title>Search</ion-title>
-  </ion-toolbar>
-</ion-header>
-
 <ion-content>
-
+  <ion-searchbar
+    (ionInput)="search($event)"
+    placeholder="Search"
+  ></ion-searchbar>
+  <ion-list>
+    <ion-item *ngFor="let item of foodItems">
+      <ion-label>{{ item.name }}</ion-label>
+      <ion-chip color="primary" mode="ios" outline="true">
+        <ion-label>{{item.totalCalories}}</ion-label>
+      </ion-chip>
+    </ion-item>
+  </ion-list>
 </ion-content>

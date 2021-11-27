@@ -21,6 +21,7 @@ export class TabsPage implements OnInit {
       component: SearchPage,
       swipeToClose: true,
       presentingElement: this.routerOutlet.nativeEl,
+      backdropDismiss: true,
       showBackdrop: true,
       mode: 'ios',
     });
