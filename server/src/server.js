@@ -7,6 +7,8 @@ const setupPassport = require("./config/passport");
 const session = require("express-session");
 const MongoStore = require("connect-mongo");
 
+const cors = require("cors");
+
 const path = require("path");
 require("dotenv").config({
     path: path.resolve(__dirname, "./config/config.env"),
@@ -18,7 +20,13 @@ connectDB();
 const app = express();
 const PORT = process.env.PORT;
 
-app.use(express.json());
+// setup cors
+app.use(
+    cors({
+        origin: "http://localhost:8100",
+        credentials: true,
+    })
+);
 
 app.use(
     session({
@@ -31,12 +39,16 @@ app.use(
         }),
         cookie: {
             maxAge: 24 * 60 * 60 * 1000,
+            secure: false,
+            httpOnly: false,
         },
     })
 );
 
 app.use(passport.initialize());
 app.use(passport.session());
+
+app.use(express.json());
 
 app.get("/", (req, res) => {
     res.send("nothing to see here");

@@ -4,7 +4,7 @@ import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
 const routes: Routes = [
   {
     path: '',
-    redirectTo: 'tabs',
+    redirectTo: 'splashscreens',
     pathMatch: 'full',
   },
   {
@@ -31,7 +31,10 @@ const routes: Routes = [
   },
   {
     path: 'barcode-scanner',
-    loadChildren: () => import('./pages/barcode-scanner/barcode-scanner.module').then( m => m.BarcodeScannerPageModule)
+    loadChildren: () =>
+      import('./pages/barcode-scanner/barcode-scanner.module').then(
+        (m) => m.BarcodeScannerPageModule
+      ),
   },
 ];
 

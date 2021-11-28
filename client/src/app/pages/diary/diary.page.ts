@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ModalController } from '@ionic/angular';
+import { AuthService } from 'src/app/services/auth.service';
 import { Day } from 'src/app/types/Day';
 import { FoodItem } from 'src/app/types/FoodItem';
 import { Meal } from 'src/app/types/Meal';
@@ -134,7 +135,10 @@ export class DiaryPage implements OnInit {
   currentCalories = '';
   timerHandler: number;
 
-  constructor(private modalController: ModalController) {}
+  constructor(
+    private modalController: ModalController,
+    private authService: AuthService
+  ) {}
 
   ngOnInit() {}
 
