@@ -4,33 +4,31 @@ const User = require("../models/user");
 const router = express.Router();
 
 /**
- * @route   GET /meal/:username
- * @desc    Get meals for a user
- * @params  username - username
- * @access  Public
+ * @route   GET /meals/
+ * @desc    Get meals for user
+ * @access  Private
  */
 
-router.get("/:username", async (req, res) => {
-    const user = await User.findOne({ username: req.params.username });
-    const meals = await Meal.find({ user: user._id });
-    return res.json(meals);
+router.get("/", async (req, res) => {
+    if (!req.user) return res.status(401).send("Unauthorized");
+    const meals = await Meal.find({ user: req.user._id });
+    res.send(meals);
 });
 
 /**
  * @route   POST /meal
  * @desc    Create a new meal
- * @params  None
- * @access  Public
+ * @access  Private
  */
 router.post("/", async (req, res) => {
-    const user = await User.findOne({ username: req.body.username });
-    const newMeal = new Meal({
-        user: user._id,
+    if (!req.user) return res.status(401).send("Unauthorized");
+    const meal = new Meal({
         name: req.body.name,
         date: req.body.date,
+        user: req.user._id,
     });
-    const meal = await newMeal.save();
-    return res.json(meal);
+    await meal.save();
+    res.send(meal);
 });
 
 /**
