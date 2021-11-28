@@ -1,9 +1,11 @@
 const express = require("express");
+const passport = require("passport");
+
 const router = express.Router();
 
 const { generateSalt, generateHash } = require("../utils/password");
 const User = require("../models/user");
-const passport = require("passport");
+const MealTime = require("../models/mealTime");
 
 /**
  * @route POST /auth/login
@@ -44,6 +46,24 @@ router.post("/register", async (req, res) => {
         goalWeight: req.body.goalWeight,
     });
     const savedUser = await user.save();
+    const breakfast = new MealTime({
+        user: savedUser._id,
+        name: "Breakfast",
+        order: 1,
+    });
+    const lunch = new MealTime({
+        user: savedUser._id,
+        name: "Lunch",
+        order: 2,
+    });
+    const dinner = new MealTime({
+        user: savedUser._id,
+        name: "Dinner",
+        order: 3,
+    });
+    await breakfast.save();
+    await lunch.save();
+    await dinner.save();
     res.json(savedUser);
 });
 
