@@ -5,23 +5,16 @@ const DiaryEntrySchema = new mongoose.Schema({
         type: Date,
         required: true,
     },
-    meals: {
-        type: [
-            {
-                type: mongoose.Schema.Types.ObjectId,
-                ref: "Meal",
-            },
-        ],
-        required: true,
-    },
+    foodEntries: [
+        {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: "FoodEntry",
+        },
+    ],
     user: {
         type: mongoose.Schema.Types.ObjectId,
         ref: "User",
         required: true,
-    },
-    createdAt: {
-        type: Date,
-        default: Date.now,
     },
 });
 
