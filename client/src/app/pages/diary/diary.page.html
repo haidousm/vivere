@@ -38,7 +38,7 @@
       ></circle-progress>
     </div>
 
-    <div class="meals-container">
+    <!-- <div class="meals-container">
       <ion-card class="meal-card" *ngFor="let meal of meals">
         <ion-card-header class="meal-card-header">
           <ion-card-title>{{meal.name}}</ion-card-title>
@@ -57,6 +57,14 @@
             </ion-item>
           </ion-list>
         </ion-card-content>
+      </ion-card>
+    </div> -->
+    <div class="meals-container">
+      <ion-card class="meal-card" *ngFor="let meal of meals">
+        <ion-card-header class="meal-card-header">
+          <ion-card-title>{{meal.name}}</ion-card-title>
+          <ion-badge color="primary">0</ion-badge>
+        </ion-card-header>
       </ion-card>
     </div>
   </div>

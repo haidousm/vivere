@@ -5,6 +5,8 @@ import { Day } from 'src/app/types/Day';
 import { FoodItem } from 'src/app/types/FoodItem';
 import { Meal } from 'src/app/types/Meal';
 import { FoodDetailsPage } from '../food-details/food-details.page';
+import { MealTime } from 'src/app/types/MealTime';
+import { MealsService } from 'src/app/services/meals.service';
 
 @Component({
   selector: 'app-diary',
@@ -52,80 +54,7 @@ export class DiaryPage implements OnInit {
     },
   ];
 
-  meals: Meal[] = [
-    {
-      name: 'Breakfast',
-      totalCalories: 300,
-      foodItems: [
-        {
-          id: 1,
-          name: 'Eggs',
-          totalCalories: 100,
-          servingSize: 1,
-          servingUnit: 'egg',
-          numberOfServings: 1,
-          caloriesPerServing: 100,
-        },
-        {
-          id: 2,
-          name: 'Bacon',
-          totalCalories: 200,
-          servingSize: 1,
-          servingUnit: 'slice',
-          numberOfServings: 1,
-          caloriesPerServing: 200,
-        },
-      ],
-    },
-    {
-      name: 'Lunch',
-      totalCalories: 700,
-      foodItems: [
-        {
-          id: 3,
-          name: 'Salad',
-          totalCalories: 300,
-          servingSize: 1,
-          servingUnit: '100g',
-          numberOfServings: 2,
-          caloriesPerServing: 150,
-        },
-        {
-          id: 4,
-          name: 'Chicken',
-          totalCalories: 400,
-          servingSize: 1,
-          servingUnit: '100g',
-          numberOfServings: 2,
-          caloriesPerServing: 200,
-        },
-      ],
-    },
-    {
-      name: 'Dinner',
-      totalCalories: 800,
-      foodItems: [
-        {
-          id: 5,
-          name: 'Steak',
-          totalCalories: 500,
-          servingSize: 1,
-          servingUnit: '100g',
-          numberOfServings: 2,
-          caloriesPerServing: 250,
-        },
-        {
-          id: 6,
-          name: 'Salad',
-          totalCalories: 300,
-          servingSize: 1,
-          servingUnit: '100g',
-          numberOfServings: 2,
-          caloriesPerServing: 150,
-        },
-      ],
-    },
-  ];
+  meals: MealTime[] = [];
 
   slidesOptions = {
     slidesPerView: 6.5,
@@ -135,9 +64,16 @@ export class DiaryPage implements OnInit {
   currentCalories = '';
   timerHandler: number;
 
-  constructor(private modalController: ModalController) {}
+  constructor(
+    private modalController: ModalController,
+    private mealsService: MealsService
+  ) {}
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.mealsService.getMealTimes().subscribe((meals: MealTime[]) => {
+      this.meals = meals.sort((a, b) => a.order - b.order);
+    });
+  }
 
   previousMonth() {}
 
