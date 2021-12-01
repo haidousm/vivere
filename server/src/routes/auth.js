@@ -64,7 +64,15 @@ router.post("/register", async (req, res) => {
     await breakfast.save();
     await lunch.save();
     await dinner.save();
-    res.json(savedUser);
+    req.login(savedUser, (err) => {
+        if (err) {
+            res.status(500).json({
+                message: "Error logging in",
+            });
+        } else {
+            res.json(savedUser);
+        }
+    });
 });
 
 module.exports = router;

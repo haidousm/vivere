@@ -1,5 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
+import { Router } from '@angular/router';
+import { AuthService } from 'src/app/services/auth.service';
+import { RegisterUser } from 'src/app/types/User';
 
 @Component({
   selector: 'app-signup',
@@ -8,7 +11,11 @@ import { FormBuilder, FormGroup } from '@angular/forms';
 })
 export class SignupPage implements OnInit {
   signupForm: FormGroup;
-  constructor(private formBuilder: FormBuilder) {
+  constructor(
+    private formBuilder: FormBuilder,
+    private authService: AuthService,
+    private router: Router
+  ) {
     this.signupForm = this.formBuilder.group({
       firstName: '',
       lastName: '',
@@ -17,7 +24,7 @@ export class SignupPage implements OnInit {
       confirmPassword: '',
       weight: '',
       height: '',
-      birthdate: '',
+      dateOfBirth: '',
       goalWeight: '',
     });
   }
@@ -25,6 +32,14 @@ export class SignupPage implements OnInit {
   ngOnInit() {}
 
   signup() {
-    console.log(this.signupForm);
+    const newUser: RegisterUser = this.signupForm.value;
+    this.authService.register(newUser).subscribe(
+      () => {
+        this.router.navigateByUrl('tabs');
+      },
+      (err) => {
+        console.log(err);
+      }
+    );
   }
 }

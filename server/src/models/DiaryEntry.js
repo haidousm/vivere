@@ -9,6 +9,8 @@ const DiaryEntrySchema = new mongoose.Schema({
         {
             type: mongoose.Schema.Types.ObjectId,
             ref: "FoodEntry",
+            required: true,
+            default: [],
         },
     ],
     user: {
