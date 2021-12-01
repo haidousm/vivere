@@ -14,8 +14,8 @@ export class FoodDetailsPage implements OnInit {
   constructor(public modalController: ModalController) {}
 
   ngOnInit() {
-    this.numberOfServings =
-      this.food.numberOfServings > 0 ? this.food.numberOfServings : 1;
+    // this.numberOfServings =
+    //   this.food.numberOfServings > 0 ? this.food.numberOfServings : 1;
   }
 
   // decreaseServings() {
@@ -27,24 +27,24 @@ export class FoodDetailsPage implements OnInit {
   //   this.updateTotalCalories();
   // }
 
-  updateTotalCalories() {
-    this.food.totalCalories =
-      this.numberOfServings * this.food.caloriesPerServing;
-  }
+  // updateTotalCalories() {
+  //   this.food.totalCalories =
+  //     this.numberOfServings * this.food.caloriesPerServing;
+  // }
 
-  inputChanged(event) {
-    this.numberOfServings = event.target.value;
-    this.updateTotalCalories();
-  }
+  // inputChanged(event) {
+  //   this.numberOfServings = event.target.value;
+  //   this.updateTotalCalories();
+  // }
 
   saveChanges() {
-    this.food.numberOfServings = this.numberOfServings;
+    // this.food.numberOfServings = this.numberOfServings;
     this.modalController.dismiss();
   }
 
   dismiss() {
-    this.food.totalCalories =
-      this.food.caloriesPerServing * this.food.numberOfServings;
+    // this.food.totalCalories =
+    //   this.food.caloriesPerServing * this.food.numberOfServings;
     this.modalController.dismiss();
   }
 }

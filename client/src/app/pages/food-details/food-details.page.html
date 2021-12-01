@@ -22,7 +22,7 @@
         <ion-row>
           <ion-col>
             <ion-card-title> Total Calories </ion-card-title>
-            <ion-card-subtitle> {{ food.totalCalories }} </ion-card-subtitle>
+            <!-- <ion-card-subtitle> {{ food.totalCalories }} </ion-card-subtitle> -->
           </ion-col>
         </ion-row>
         <ion-row>
@@ -44,20 +44,20 @@
     <ion-card-header>
       <ion-card-title> Number of Servings </ion-card-title>
     </ion-card-header>
-    <ion-card-content>
+    <!-- <ion-card-content>
       <ion-item>
         <ion-input
           type="number"
           value="{{ food.numberOfServings > 0 ? food.numberOfServings : 1 }}"
           (ionChange)="inputChanged($event)"
         ></ion-input>
-        <!-- <ion-button slot="end" (click)="decreaseServings()" color="danger">
+        <ion-button slot="end" (click)="decreaseServings()" color="danger">
           -
         </ion-button>
         <ion-button slot="end" (click)="increaseServings()" color="success">
           +
-        </ion-button> -->
+        </ion-button>
       </ion-item>
-    </ion-card-content>
+    </ion-card-content>  -->
   </ion-card>
 </ion-content>

@@ -1,10 +1,8 @@
 /* eslint-disable no-underscore-dangle */
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { IonSlides, ModalController } from '@ionic/angular';
-import { AuthService } from 'src/app/services/auth.service';
 import { Day } from 'src/app/types/Day';
 import { FoodItem } from 'src/app/types/FoodItem';
-import { Meal } from 'src/app/types/Meal';
 import { FoodDetailsPage } from '../food-details/food-details.page';
 import { MealTime } from 'src/app/types/MealTime';
 import { MealsService } from 'src/app/services/meals.service';
@@ -113,7 +111,7 @@ export class DiaryPage implements OnInit {
       });
   }
 
-  private async selectFood(food: FoodItem) {
+  async selectFood(food: FoodItem) {
     const modal = await this.modalController.create({
       component: FoodDetailsPage,
       componentProps: {
