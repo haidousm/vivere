@@ -35,7 +35,7 @@ export class SignupPage implements OnInit {
     const newUser: RegisterUser = this.signupForm.value;
     this.authService.register(newUser).subscribe(
       () => {
-        this.router.navigateByUrl('/tabs/');
+        this.router.navigateByUrl('tabs');
       },
       (err) => {
         console.log(err);
