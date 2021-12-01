@@ -15,4 +15,10 @@ export class DiaryService {
       withCredentials: true,
     });
   }
+
+  getTotalCalories(entryId: string) {
+    return this.httpClient.get(`${this.apiUrl}/calories/${entryId}`, {
+      withCredentials: true,
+    });
+  }
 }

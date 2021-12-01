@@ -2,7 +2,7 @@ import { FoodItem } from './FoodItem';
 import { User } from './User';
 
 export interface DiaryEntry {
-  id: number;
+  _id: string;
   date: Date;
   foodEntries: FoodItem[];
   user: User;
