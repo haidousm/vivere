@@ -1,5 +1,5 @@
-import { Component, OnInit } from '@angular/core';
-import { ModalController } from '@ionic/angular';
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { IonSlides, ModalController } from '@ionic/angular';
 import { AuthService } from 'src/app/services/auth.service';
 import { Day } from 'src/app/types/Day';
 import { FoodItem } from 'src/app/types/FoodItem';
@@ -7,6 +7,8 @@ import { Meal } from 'src/app/types/Meal';
 import { FoodDetailsPage } from '../food-details/food-details.page';
 import { MealTime } from 'src/app/types/MealTime';
 import { MealsService } from 'src/app/services/meals.service';
+import { DiaryService } from 'src/app/services/diary.service';
+import { DiaryEntry } from 'src/app/types/DiaryEntry';
 
 @Component({
   selector: 'app-diary',
@@ -14,45 +16,10 @@ import { MealsService } from 'src/app/services/meals.service';
   styleUrls: ['./diary.page.scss'],
 })
 export class DiaryPage implements OnInit {
-  chosenMonth = 'November';
-  chosenYear = '2021';
-  days: Day[] = [
-    {
-      date: 1,
-      name: 'M',
-      selected: false,
-    },
-    {
-      date: 2,
-      name: 'T',
-      selected: true,
-    },
-    {
-      date: 3,
-      name: 'W',
-      selected: false,
-    },
-    {
-      date: 4,
-      name: 'T',
-      selected: false,
-    },
-    {
-      date: 5,
-      name: 'F',
-      selected: false,
-    },
-    {
-      date: 6,
-      name: 'S',
-      selected: false,
-    },
-    {
-      date: 7,
-      name: 'S',
-      selected: false,
-    },
-  ];
+  @ViewChild('slider', { read: IonSlides }) slider: IonSlides;
+
+  diaryEntry: DiaryEntry;
+  days: Day[] = [];
 
   meals: MealTime[] = [];
 
@@ -66,31 +33,69 @@ export class DiaryPage implements OnInit {
 
   constructor(
     private modalController: ModalController,
-    private mealsService: MealsService
+    private mealsService: MealsService,
+    private diaryService: DiaryService
   ) {}
 
   ngOnInit() {
+    const todaysDate = new Date();
+    const today = {
+      name: todaysDate.toLocaleDateString('en-US', { weekday: 'short' }),
+      date: todaysDate,
+      selected: true,
+    };
+    this.selectDay(today);
     this.mealsService.getMealTimes().subscribe((meals: MealTime[]) => {
       this.meals = meals.sort((a, b) => a.order - b.order);
     });
   }
 
-  previousMonth() {}
+  previousMonth() {
+    const date = new Date(this.diaryEntry.date);
+    date.setDate(0);
 
-  nextMonth() {}
+    const day = {
+      name: date.toLocaleDateString('en-US', { weekday: 'short' }),
+      date,
+      selected: true,
+    };
+    if (day.date.getMonth() === new Date().getMonth()) {
+      day.date.setDate(new Date().getDate());
+      this.selectDay(day);
+    } else {
+      this.selectDay(day);
+      this.slider.slideTo(this.days.length - 1);
+    }
+  }
+
+  nextMonth() {
+    const date = new Date(this.diaryEntry.date);
+    date.setDate(32);
+    if (date.getMonth() === new Date().getMonth()) {
+      date.setDate(new Date().getDate());
+    }
+    const day = {
+      name: date.toLocaleDateString('en-US', { weekday: 'short' }),
+      date,
+      selected: true,
+    };
+    this.selectDay(day);
+    this.slider.slideTo(0);
+  }
 
   selectDay(day: Day) {
     this.days.forEach((d) => (d.selected = false));
     day.selected = true;
-    const maxCals = 2000;
-    this.caloricProgress =
-      ((Math.floor(Math.random() * 1000) + 1000) / maxCals) * 100;
-    this.currentCalories = `${Math.floor(
-      (this.caloricProgress / 100) * maxCals
-    )} cal.`;
+    this.diaryService
+      .getDiaryEntry(day.date)
+      .subscribe((diaryEntry: DiaryEntry) => {
+        this.diaryEntry = diaryEntry;
+        this.diaryEntry.date = new Date(diaryEntry.date);
+        this.days = this.generateDaysOfTheMonth(this.diaryEntry.date);
+      });
   }
 
-  async selectFood(food: FoodItem) {
+  private async selectFood(food: FoodItem) {
     const modal = await this.modalController.create({
       component: FoodDetailsPage,
       componentProps: {
@@ -98,5 +103,27 @@ export class DiaryPage implements OnInit {
       },
     });
     await modal.present();
+  }
+
+  private generateDaysOfTheMonth(date: Date) {
+    const days: Day[] = [];
+    const daysInMonth = new Date(
+      date.getFullYear(),
+      date.getMonth() + 1,
+      0
+    ).getDate();
+    for (let i = 1; i <= daysInMonth; i++) {
+      const currentDate = new Date(date.getFullYear(), date.getMonth(), i);
+      const day: Day = {
+        name: currentDate.toLocaleDateString('en-US', {
+          weekday: 'short',
+        }),
+        date: currentDate,
+        selected: i === date.getDate(),
+      };
+
+      days.push(day);
+    }
+    return days;
   }
 }

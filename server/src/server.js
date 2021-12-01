@@ -58,5 +58,6 @@ app.use("/auth", require("./routes/auth"));
 app.use("/users", require("./routes/users"));
 app.use("/food", require("./routes/food"));
 app.use("/meals", require("./routes/meals"));
+app.use("/diary", require("./routes/diary"));
 
 app.listen(PORT, () => console.log(`Listening on port ${PORT}`));

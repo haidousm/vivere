@@ -8,7 +8,8 @@
           (click)="previousMonth()"
         ></ion-icon>
         <ion-label class="month-label"
-          >{{chosenMonth}} {{chosenYear}}</ion-label
+          >{{diaryEntry ? diaryEntry.date.toLocaleString('default', { month:
+          'long', year: "numeric" }) : "Some Month"}}</ion-label
         >
         <ion-icon
           name="arrow-forward"
@@ -17,7 +18,7 @@
         ></ion-icon>
       </div>
       <div class="day-picker">
-        <ion-slides [options]="slidesOptions">
+        <ion-slides [options]="slidesOptions" #slider>
           <ion-slide *ngFor="let day of days">
             <ion-chip
               (click)="selectDay(day)"
@@ -25,7 +26,9 @@
               [ngClass]="{'selected': day.selected}"
             >
               <ion-label class="day-chip-name">{{day.name}}</ion-label>
-              <ion-label class="day-chip-date">{{day.date}}</ion-label>
+              <ion-label class="day-chip-date"
+                >{{day.date.getDate()}}</ion-label
+              >
             </ion-chip>
           </ion-slide>
         </ion-slides>
