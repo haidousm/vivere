@@ -135,10 +135,7 @@ export class DiaryPage implements OnInit {
   currentCalories = '';
   timerHandler: number;
 
-  constructor(
-    private modalController: ModalController,
-    private authService: AuthService
-  ) {}
+  constructor(private modalController: ModalController) {}
 
   ngOnInit() {}
 

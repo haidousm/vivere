@@ -5,7 +5,9 @@
     {
       "files": ["*.ts"],
       "parserOptions": {
-        "project": ["tsconfig.json", "e2e/tsconfig.json"],
+        "project": ["**/tsconfig.json", "**/e2e/tsconfig.json"],
+        "tsConfigRootDir": "__dirname",
+        "sourceType": "module",
         "createDefaultProgram": true
       },
       "extends": [
