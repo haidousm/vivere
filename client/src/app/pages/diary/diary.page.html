@@ -66,7 +66,7 @@
       <ion-card class="meal-card" *ngFor="let meal of meals">
         <ion-card-header class="meal-card-header">
           <ion-card-title>{{meal.name}}</ion-card-title>
-          <ion-badge color="primary">0</ion-badge>
+          <ion-badge color="primary">{{meal.calories}}</ion-badge>
         </ion-card-header>
       </ion-card>
     </div>

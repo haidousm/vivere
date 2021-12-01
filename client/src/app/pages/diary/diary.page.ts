@@ -1,3 +1,4 @@
+/* eslint-disable no-underscore-dangle */
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { IonSlides, ModalController } from '@ionic/angular';
 import { AuthService } from 'src/app/services/auth.service';
@@ -9,6 +10,7 @@ import { MealTime } from 'src/app/types/MealTime';
 import { MealsService } from 'src/app/services/meals.service';
 import { DiaryService } from 'src/app/services/diary.service';
 import { DiaryEntry } from 'src/app/types/DiaryEntry';
+import { DiaryCalories } from 'src/app/types/DiaryCalories';
 
 @Component({
   selector: 'app-diary',
@@ -28,6 +30,7 @@ export class DiaryPage implements OnInit {
   };
 
   caloricProgress = 0;
+  maximumCalories = 2000;
   currentCalories = '';
   timerHandler: number;
 
@@ -44,9 +47,9 @@ export class DiaryPage implements OnInit {
       date: todaysDate,
       selected: true,
     };
-    this.selectDay(today);
     this.mealsService.getMealTimes().subscribe((meals: MealTime[]) => {
       this.meals = meals.sort((a, b) => a.order - b.order);
+      this.selectDay(today);
     });
   }
 
@@ -92,6 +95,21 @@ export class DiaryPage implements OnInit {
         this.diaryEntry = diaryEntry;
         this.diaryEntry.date = new Date(diaryEntry.date);
         this.days = this.generateDaysOfTheMonth(this.diaryEntry.date);
+        this.diaryService
+          .getTotalCalories(this.diaryEntry._id)
+          .subscribe((diaryCalories: DiaryCalories) => {
+            this.meals.forEach((meal) => {
+              const mealCalories = diaryCalories.mealsCalories.find(
+                (m) => m.mealId === meal._id
+              );
+              meal.calories = mealCalories.calories;
+            });
+            this.caloricProgress =
+              (diaryCalories.totalCalories / this.maximumCalories) * 100;
+            this.currentCalories = `${Math.floor(
+              (this.caloricProgress / 100) * this.maximumCalories
+            )} cal.`;
+          });
       });
   }
 
