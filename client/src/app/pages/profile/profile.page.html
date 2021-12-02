@@ -6,7 +6,7 @@
           Hey,
           <span
             style="background-color: #e35ce6; border-radius: 3px; padding: 5px"
-            >{{user.firstName}} {{user.lastName}}</span
+            >{{user ? user.firstName : ''}} {{user ? user.lastName : ''}}</span
           >
         </h3>
       </ion-text>
@@ -17,8 +17,10 @@
       </ion-label>
       <ion-input
         type="number"
-        value="{{user.height}}"
+        value="{{user ? user.height: ''}}"
+        [(ngModel)]="userHeight"
         class="editable-field"
+        (ngModelChange)="updateIsChanged()"
       ></ion-input>
     </ion-item>
     <ion-item>
@@ -27,8 +29,10 @@
       </ion-label>
       <ion-input
         type="number"
-        value="{{user.weight}}"
+        value="{{user ? user.weight : ''}}"
         class="editable-field"
+        [(ngModel)]="userWeight"
+        (ngModelChange)="updateIsChanged()"
       ></ion-input>
     </ion-item>
     <ion-item>
@@ -37,8 +41,10 @@
       </ion-label>
       <ion-input
         type="number"
-        value="{{user.goalWeight}}"
+        value="{{user ? user.goalWeight : ''}}"
         class="editable-field"
+        [(ngModel)]="userGoalWeight"
+        (ngModelChange)="updateIsChanged()"
       ></ion-input>
     </ion-item>
     <ion-item>
@@ -47,8 +53,10 @@
       </ion-label>
       <ion-input
         type="number"
-        value="{{user.goalCalories}}"
+        value="{{user ? user.goalCalories : ''}}"
         class="editable-field"
+        [(ngModel)]="userGoalCalories"
+        (ngModelChange)="updateIsChanged()"
       ></ion-input>
     </ion-item>
   </ion-list>
