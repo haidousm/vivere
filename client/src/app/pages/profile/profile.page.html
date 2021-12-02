@@ -1,0 +1,64 @@
+<ion-content>
+  <ion-list lines="none" style="margin-top: 50px">
+    <ion-item>
+      <ion-text class="ion-text-center">
+        <h3>
+          Hey,
+          <span
+            style="background-color: #e35ce6; border-radius: 3px; padding: 5px"
+            >{{user.firstName}} {{user.lastName}}</span
+          >
+        </h3>
+      </ion-text>
+    </ion-item>
+    <ion-item>
+      <ion-label>
+        <h2>Height (cm)</h2>
+      </ion-label>
+      <ion-input
+        type="number"
+        value="{{user.height}}"
+        class="editable-field"
+      ></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label>
+        <h2>Current Weight (kg)</h2>
+      </ion-label>
+      <ion-input
+        type="number"
+        value="{{user.weight}}"
+        class="editable-field"
+      ></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label>
+        <h2>Goal Weight (kg)</h2>
+      </ion-label>
+      <ion-input
+        type="number"
+        value="{{user.goalWeight}}"
+        class="editable-field"
+      ></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label>
+        <h2>Maximum Calories / Day</h2>
+      </ion-label>
+      <ion-input
+        type="number"
+        value="{{user.goalCalories}}"
+        class="editable-field"
+      ></ion-input>
+    </ion-item>
+  </ion-list>
+  <ion-button
+    expand="block"
+    color="primary"
+    style="margin: 5px 15px"
+    (click)="updateProfile()"
+    disabled="{{isChanged}}"
+  >
+    Update Profile</ion-button
+  >
+</ion-content>
