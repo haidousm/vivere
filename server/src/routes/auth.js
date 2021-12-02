@@ -47,17 +47,17 @@ router.post("/register", async (req, res) => {
     });
     const savedUser = await user.save();
     const breakfast = new MealTime({
-        user: savedUser._id,
+        user: savedUser.id,
         name: "Breakfast",
         order: 1,
     });
     const lunch = new MealTime({
-        user: savedUser._id,
+        user: savedUser.id,
         name: "Lunch",
         order: 2,
     });
     const dinner = new MealTime({
-        user: savedUser._id,
+        user: savedUser.id,
         name: "Dinner",
         order: 3,
     });

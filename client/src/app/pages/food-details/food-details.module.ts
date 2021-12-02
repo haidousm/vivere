@@ -13,8 +13,7 @@ import { FoodDetailsPage } from './food-details.page';
     CommonModule,
     FormsModule,
     IonicModule,
-    FoodDetailsPageRoutingModule
+    FoodDetailsPageRoutingModule,
   ],
-  declarations: [FoodDetailsPage]
 })
 export class FoodDetailsPageModule {}

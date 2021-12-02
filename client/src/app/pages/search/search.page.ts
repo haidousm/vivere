@@ -1,5 +1,12 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
+import { ModalController } from '@ionic/angular';
+import { DiaryService } from 'src/app/services/diary.service';
+import { FoodService } from 'src/app/services/food.service';
+import { MealsService } from 'src/app/services/meals.service';
 import { FoodItem } from 'src/app/types/FoodItem';
+import { MealTime } from 'src/app/types/MealTime';
+import { FoodDetailsPage } from '../food-details/food-details.page';
 
 @Component({
   selector: 'app-search',
@@ -7,47 +14,47 @@ import { FoodItem } from 'src/app/types/FoodItem';
   styleUrls: ['./search.page.scss'],
 })
 export class SearchPage implements OnInit {
-  actualFoodItems: FoodItem[] = [
-    {
-      id: 1,
-      name: 'Pizza',
-      caloriesPerServing: 400,
-      totalCalories: 400,
-      servingSize: 1,
-      servingUnit: 'slice',
-      numberOfServings: 1,
-    },
-    {
-      id: 2,
-      name: 'Burger',
-      caloriesPerServing: 300,
-      totalCalories: 300,
-      servingSize: 1,
-      servingUnit: 'burger',
-      numberOfServings: 1,
-    },
-    {
-      id: 3,
-      name: 'Batata',
-      caloriesPerServing: 100,
-      totalCalories: 100,
-      servingSize: 1,
-      servingUnit: 'slice',
-      numberOfServings: 1,
-    },
-  ];
-
+  numberOfItems = 30;
   foodItems: FoodItem[] = [];
+  mealTimes: MealTime[] = [];
 
-  constructor() {}
+  constructor(
+    private modalController: ModalController,
+    private foodService: FoodService,
+    private mealsService: MealsService,
+    private diaryService: DiaryService
+  ) {}
 
   ngOnInit() {
-    this.foodItems = this.actualFoodItems;
+    this.foodService
+      .getFoodItems(this.numberOfItems)
+      .subscribe((foodItems: FoodItem[]) => {
+        this.foodItems = foodItems;
+      });
+
+    this.mealsService.getMealTimes().subscribe((meals: MealTime[]) => {
+      this.mealTimes = meals.sort((a, b) => a.order - b.order);
+    });
   }
 
   search(event) {
-    this.foodItems = this.actualFoodItems.filter((foodItem) =>
-      foodItem.name.toLowerCase().includes(event.target.value.toLowerCase())
-    );
+    this.foodService
+      .filterFoodItems(event.target.value.toLowerCase())
+      .subscribe((foodItems: FoodItem[]) => {
+        this.foodItems = foodItems;
+      });
+  }
+
+  async selectItem(food: FoodItem) {
+    const modal = await this.modalController.create({
+      component: FoodDetailsPage,
+      componentProps: {
+        food,
+        mealTimes: this.mealTimes,
+        currentDiaryId: this.diaryService.getCurrentDiaryId(),
+      },
+      id: 'food-details-modal',
+    });
+    return await modal.present();
   }
 }

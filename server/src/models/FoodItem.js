@@ -26,4 +26,8 @@ const FoodItemSchema = new mongoose.Schema({
     },
 });
 
+FoodItemSchema.set("toJSON", {
+    virtuals: true,
+});
+
 module.exports = mongoose.model("FoodItem", FoodItemSchema);

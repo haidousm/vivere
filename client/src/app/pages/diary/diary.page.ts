@@ -1,16 +1,15 @@
 /* eslint-disable no-underscore-dangle */
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { IonSlides, ModalController } from '@ionic/angular';
-import { AuthService } from 'src/app/services/auth.service';
 import { Day } from 'src/app/types/Day';
 import { FoodItem } from 'src/app/types/FoodItem';
-import { Meal } from 'src/app/types/Meal';
 import { FoodDetailsPage } from '../food-details/food-details.page';
 import { MealTime } from 'src/app/types/MealTime';
 import { MealsService } from 'src/app/services/meals.service';
 import { DiaryService } from 'src/app/services/diary.service';
 import { DiaryEntry } from 'src/app/types/DiaryEntry';
 import { DiaryCalories } from 'src/app/types/DiaryCalories';
+import { FoodEntry } from 'src/app/types/FoodEntry';
 
 @Component({
   selector: 'app-diary',
@@ -38,7 +37,11 @@ export class DiaryPage implements OnInit {
     private modalController: ModalController,
     private mealsService: MealsService,
     private diaryService: DiaryService
-  ) {}
+  ) {
+    this.diaryService.refreshDiary.subscribe((val) => {
+      this.refreshDiary();
+    });
+  }
 
   ngOnInit() {
     const todaysDate = new Date();
@@ -93,14 +96,15 @@ export class DiaryPage implements OnInit {
       .getDiaryEntry(day.date)
       .subscribe((diaryEntry: DiaryEntry) => {
         this.diaryEntry = diaryEntry;
+        this.diaryService.setCurrentDiaryId(this.diaryEntry.id);
         this.diaryEntry.date = new Date(diaryEntry.date);
         this.days = this.generateDaysOfTheMonth(this.diaryEntry.date);
         this.diaryService
-          .getTotalCalories(this.diaryEntry._id)
+          .getTotalCalories(this.diaryEntry.id)
           .subscribe((diaryCalories: DiaryCalories) => {
             this.meals.forEach((meal) => {
               const mealCalories = diaryCalories.mealsCalories.find(
-                (m) => m.mealId === meal._id
+                (m) => m.mealId === meal.id
               );
               meal.calories = mealCalories.calories;
             });
@@ -113,17 +117,33 @@ export class DiaryPage implements OnInit {
       });
   }
 
-  private async selectFood(food: FoodItem) {
+  async selectFood(foodEntry: FoodEntry) {
     const modal = await this.modalController.create({
       component: FoodDetailsPage,
       componentProps: {
-        food,
+        clickedFoodEntry: foodEntry,
+        mealTimes: this.meals,
+        currentDiaryId: this.diaryEntry.id,
       },
     });
+
     await modal.present();
   }
 
-  private generateDaysOfTheMonth(date: Date) {
+  refreshDiary() {
+    if (this.diaryEntry) {
+      const day = {
+        name: this.diaryEntry.date.toLocaleDateString('en-US', {
+          weekday: 'short',
+        }),
+        date: this.diaryEntry.date,
+        selected: true,
+      };
+      this.selectDay(day);
+    }
+  }
+
+  generateDaysOfTheMonth(date: Date) {
     const days: Day[] = [];
     const daysInMonth = new Date(
       date.getFullYear(),
@@ -143,5 +163,14 @@ export class DiaryPage implements OnInit {
       days.push(day);
     }
     return days;
+  }
+
+  getEntriesForMeal(meal: MealTime) {
+    if (!this.diaryEntry) {
+      return [];
+    }
+    return this.diaryEntry.foodEntries.filter(
+      (entry: FoodEntry) => entry.mealTime.id === meal.id
+    );
   }
 }

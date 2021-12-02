@@ -1,9 +1,9 @@
-import { FoodItem } from './FoodItem';
+import { FoodEntry } from './FoodEntry';
 import { User } from './User';
 
 export interface DiaryEntry {
-  _id: string;
+  id: string;
   date: Date;
-  foodEntries: FoodItem[];
+  foodEntries: FoodEntry[];
   user: User;
 }

@@ -1,9 +1,10 @@
+/* eslint-disable @typescript-eslint/naming-convention */
 export interface FoodItem {
-  id: number;
+  id: string;
   name: string;
-  totalCalories: number;
-  servingSize: number;
-  servingUnit: string;
-  numberOfServings: number;
+  brand: string;
   caloriesPerServing: number;
+  servingSize: string;
+  importedID: string;
+  GTIN13: string;
 }
