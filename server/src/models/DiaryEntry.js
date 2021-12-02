@@ -20,4 +20,8 @@ const DiaryEntrySchema = new mongoose.Schema({
     },
 });
 
+DiaryEntrySchema.set("toJSON", {
+    virtuals: true,
+});
+
 module.exports = mongoose.model("DiaryEntry", DiaryEntrySchema);

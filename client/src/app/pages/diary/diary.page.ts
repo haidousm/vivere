@@ -96,15 +96,15 @@ export class DiaryPage implements OnInit {
       .getDiaryEntry(day.date)
       .subscribe((diaryEntry: DiaryEntry) => {
         this.diaryEntry = diaryEntry;
-        this.diaryService.setCurrentDiaryId(this.diaryEntry._id);
+        this.diaryService.setCurrentDiaryId(this.diaryEntry.id);
         this.diaryEntry.date = new Date(diaryEntry.date);
         this.days = this.generateDaysOfTheMonth(this.diaryEntry.date);
         this.diaryService
-          .getTotalCalories(this.diaryEntry._id)
+          .getTotalCalories(this.diaryEntry.id)
           .subscribe((diaryCalories: DiaryCalories) => {
             this.meals.forEach((meal) => {
               const mealCalories = diaryCalories.mealsCalories.find(
-                (m) => m.mealId === meal._id
+                (m) => m.mealId === meal.id
               );
               meal.calories = mealCalories.calories;
             });
@@ -123,7 +123,7 @@ export class DiaryPage implements OnInit {
       componentProps: {
         clickedFoodEntry: foodEntry,
         mealTimes: this.meals,
-        currentDiaryId: this.diaryEntry._id,
+        currentDiaryId: this.diaryEntry.id,
       },
     });
 
@@ -170,7 +170,7 @@ export class DiaryPage implements OnInit {
       return [];
     }
     return this.diaryEntry.foodEntries.filter(
-      (entry: FoodEntry) => entry.mealTime._id === meal._id
+      (entry: FoodEntry) => entry.mealTime.id === meal.id
     );
   }
 }

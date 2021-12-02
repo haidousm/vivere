@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/naming-convention */
 export interface FoodItem {
-  _id: string;
+  id: string;
   name: string;
   brand: string;
   caloriesPerServing: number;

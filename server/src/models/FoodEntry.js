@@ -28,4 +28,8 @@ const FoodEntrySchema = new mongoose.Schema({
     },
 });
 
+FoodEntrySchema.set("toJSON", {
+    virtuals: true,
+});
+
 module.exports = mongoose.model("FoodEntry", FoodEntrySchema);

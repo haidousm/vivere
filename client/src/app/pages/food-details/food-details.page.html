@@ -64,14 +64,14 @@
     <ion-card-content>
       <ion-item>
         <ion-select
-          value="{{ foodEntry.mealTime._id}}"
+          value="{{ foodEntry.mealTime.id}}"
           interface="popover"
           placeholder="Select a meal time"
           (ionChange)="onMealTimeChange($event)"
         >
           <ion-select-option
             *ngFor="let meal of mealTimes"
-            value="{{ meal._id}}"
+            value="{{ meal.id}}"
           >
             {{ meal.name }}
           </ion-select-option>
@@ -79,4 +79,7 @@
       </ion-item>
     </ion-card-content>
   </ion-card>
+  <ion-button color="danger" expand="block" (click)="deleteFoodEntry()">
+    Delete
+  </ion-button>
 </ion-content>

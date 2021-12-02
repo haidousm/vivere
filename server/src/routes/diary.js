@@ -100,13 +100,13 @@ router.get("/calories/:diaryEntryId", async (req, res) => {
  */
 
 router.post("/food", async (req, res) => {
-    const foodItem = await FoodItem.findById(req.body.foodItem._id);
+    const foodItem = await FoodItem.findById(req.body.foodItem.id);
     const diaryEntry = await DiaryEntry.findById(req.body.diaryId);
-    const mealTime = await MealTime.findById(req.body.mealTime._id);
+    const mealTime = await MealTime.findById(req.body.mealTime.id);
 
     let foodEntry = {};
-    if (req.body._id) {
-        foodEntry = await FoodEntry.findById(req.body._id);
+    if (req.body.id) {
+        foodEntry = await FoodEntry.findById(req.body.id);
         foodEntry.foodItem = foodItem;
         foodEntry.numberOfServings = req.body.numberOfServings;
         foodEntry.totalCalories = req.body.totalCalories;

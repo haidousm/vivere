@@ -1,7 +1,7 @@
 import { User } from './User';
 
 export interface MealTime {
-  _id: string;
+  id: string;
   name: string;
   order: number;
   calories: number;

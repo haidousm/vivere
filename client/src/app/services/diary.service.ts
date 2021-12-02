@@ -1,3 +1,4 @@
+/* eslint-disable no-underscore-dangle */
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Subject } from 'rxjs';
@@ -30,6 +31,12 @@ export class DiaryService {
 
   addOrUpdateFoodEntry(foodEntry: FoodEntry) {
     return this.httpClient.post(`${this.apiUrl}/food`, foodEntry, {
+      withCredentials: true,
+    });
+  }
+
+  deleteFoodEntry(foodEntry) {
+    return this.httpClient.delete(`${this.apiUrl}/food/${foodEntry.id}`, {
       withCredentials: true,
     });
   }

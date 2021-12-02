@@ -49,12 +49,20 @@ export class FoodDetailsPage implements OnInit {
 
   onMealTimeChange(event) {
     this.foodEntry.mealTime = this.mealTimes.find(
-      (mealTime) => mealTime._id === event.target.value
+      (mealTime) => mealTime.id === event.target.value
     );
   }
 
   saveChanges() {
     this.diaryService.addOrUpdateFoodEntry(this.foodEntry).subscribe(() => {
+      this.modalController.dismiss();
+      this.modalController.dismiss({}, '', 'search-modal').catch((e) => {});
+      this.diaryService.refreshDiary.next(Math.random());
+    });
+  }
+
+  deleteFoodEntry() {
+    this.diaryService.deleteFoodEntry(this.foodEntry).subscribe(() => {
       this.modalController.dismiss();
       this.modalController.dismiss({}, '', 'search-modal').catch((e) => {});
       this.diaryService.refreshDiary.next(Math.random());
