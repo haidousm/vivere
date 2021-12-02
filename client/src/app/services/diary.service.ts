@@ -35,10 +35,13 @@ export class DiaryService {
     });
   }
 
-  deleteFoodEntry(foodEntry) {
-    return this.httpClient.delete(`${this.apiUrl}/food/${foodEntry.id}`, {
-      withCredentials: true,
-    });
+  deleteFoodEntry(diaryEntryId, foodEntryId) {
+    return this.httpClient.delete(
+      `${this.apiUrl}/food/${diaryEntryId}/${foodEntryId}`,
+      {
+        withCredentials: true,
+      }
+    );
   }
 
   getCurrentDiaryId() {

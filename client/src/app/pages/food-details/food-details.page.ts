@@ -26,6 +26,7 @@ export class FoodDetailsPage implements OnInit {
   ngOnInit() {
     if (!this.clickedFoodEntry) {
       this.foodEntry = {
+        id: '',
         foodItem: this.food,
         numberOfServings: 1,
         totalCalories: this.food.caloriesPerServing,
@@ -62,11 +63,13 @@ export class FoodDetailsPage implements OnInit {
   }
 
   deleteFoodEntry() {
-    this.diaryService.deleteFoodEntry(this.foodEntry).subscribe(() => {
-      this.modalController.dismiss();
-      this.modalController.dismiss({}, '', 'search-modal').catch((e) => {});
-      this.diaryService.refreshDiary.next(Math.random());
-    });
+    this.diaryService
+      .deleteFoodEntry(this.currentDiaryId, this.foodEntry.id)
+      .subscribe(() => {
+        this.modalController.dismiss();
+        this.modalController.dismiss({}, '', 'search-modal').catch((e) => {});
+        this.diaryService.refreshDiary.next(Math.random());
+      });
   }
 
   dismiss() {

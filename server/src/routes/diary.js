@@ -128,4 +128,20 @@ router.post("/food", async (req, res) => {
 
     res.json(foodEntry);
 });
+
+/**
+ * @route DELETE /diary/food/:diaryEntryId/:foodEntryId
+ * @desc Delete a food entry for a specific diary entry
+ * @access Private
+ */
+
+router.delete("/food/:diaryEntryId/:foodEntryId", async (req, res) => {
+    const diaryEntry = await DiaryEntry.findById(req.params.diaryEntryId);
+    const foodEntry = await FoodEntry.findById(req.params.foodEntryId);
+    diaryEntry.foodEntries.pull(foodEntry);
+    await diaryEntry.save();
+    await foodEntry.remove();
+    res.json(diaryEntry);
+});
+
 module.exports = router;

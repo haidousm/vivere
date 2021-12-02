@@ -79,7 +79,14 @@
       </ion-item>
     </ion-card-content>
   </ion-card>
-  <ion-button color="danger" expand="block" (click)="deleteFoodEntry()">
+  <ion-button
+    color="danger"
+    size="medium"
+    expand="block"
+    style="margin: 15px 30px"
+    (click)="deleteFoodEntry()"
+    *ngIf="foodEntry.id !== '' "
+  >
     Delete
   </ion-button>
 </ion-content>
