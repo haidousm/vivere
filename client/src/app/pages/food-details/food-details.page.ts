@@ -55,8 +55,9 @@ export class FoodDetailsPage implements OnInit {
 
   saveChanges() {
     this.diaryService.addOrUpdateFoodEntry(this.foodEntry).subscribe(() => {
-      this.modalController.dismiss({}, '', 'search-modal');
       this.modalController.dismiss();
+      this.modalController.dismiss({}, '', 'search-modal').catch((e) => {});
+      this.diaryService.refreshDiary.next(Math.random());
     });
   }
 

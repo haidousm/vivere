@@ -37,7 +37,11 @@ export class DiaryPage implements OnInit {
     private modalController: ModalController,
     private mealsService: MealsService,
     private diaryService: DiaryService
-  ) {}
+  ) {
+    this.diaryService.refreshDiary.subscribe((val) => {
+      this.refreshDiary();
+    });
+  }
 
   ngOnInit() {
     const todaysDate = new Date();
@@ -109,8 +113,6 @@ export class DiaryPage implements OnInit {
             this.currentCalories = `${Math.floor(
               (this.caloricProgress / 100) * this.maximumCalories
             )} cal.`;
-
-            console.log(this.diaryEntry);
           });
       });
   }
@@ -124,7 +126,21 @@ export class DiaryPage implements OnInit {
         currentDiaryId: this.diaryEntry._id,
       },
     });
+
     await modal.present();
+  }
+
+  refreshDiary() {
+    if (this.diaryEntry) {
+      const day = {
+        name: this.diaryEntry.date.toLocaleDateString('en-US', {
+          weekday: 'short',
+        }),
+        date: this.diaryEntry.date,
+        selected: true,
+      };
+      this.selectDay(day);
+    }
   }
 
   generateDaysOfTheMonth(date: Date) {
@@ -150,6 +166,9 @@ export class DiaryPage implements OnInit {
   }
 
   getEntriesForMeal(meal: MealTime) {
+    if (!this.diaryEntry) {
+      return [];
+    }
     return this.diaryEntry.foodEntries.filter(
       (entry: FoodEntry) => entry.mealTime._id === meal._id
     );
