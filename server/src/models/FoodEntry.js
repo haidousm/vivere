@@ -27,3 +27,5 @@ const FoodEntrySchema = new mongoose.Schema({
         ref: "User",
     },
 });
+
+module.exports = mongoose.model("FoodEntry", FoodEntrySchema);

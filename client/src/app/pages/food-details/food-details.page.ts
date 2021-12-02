@@ -1,6 +1,10 @@
+/* eslint-disable no-underscore-dangle */
 import { Component, Input, OnInit } from '@angular/core';
 import { FoodItem } from 'src/app/types/FoodItem';
 import { ModalController } from '@ionic/angular';
+import { FoodEntry } from 'src/app/types/FoodEntry';
+import { MealTime } from 'src/app/types/MealTime';
+import { DiaryService } from 'src/app/services/diary.service';
 
 @Component({
   selector: 'app-food-details',
@@ -9,42 +13,54 @@ import { ModalController } from '@ionic/angular';
 })
 export class FoodDetailsPage implements OnInit {
   @Input() food: FoodItem;
+  @Input() mealTimes: MealTime[];
+  @Input() currentDiaryId: string;
+  @Input() clickedFoodEntry: FoodEntry;
 
-  numberOfServings = 1;
-  constructor(public modalController: ModalController) {}
+  foodEntry: FoodEntry;
+  constructor(
+    public modalController: ModalController,
+    private diaryService: DiaryService
+  ) {}
 
   ngOnInit() {
-    // this.numberOfServings =
-    //   this.food.numberOfServings > 0 ? this.food.numberOfServings : 1;
+    if (!this.clickedFoodEntry) {
+      this.foodEntry = {
+        foodItem: this.food,
+        numberOfServings: 1,
+        totalCalories: this.food.caloriesPerServing,
+        mealTime: this.mealTimes[0],
+        diaryId: this.currentDiaryId,
+      };
+    } else {
+      this.foodEntry = this.clickedFoodEntry;
+      this.food = this.foodEntry.foodItem;
+    }
   }
 
-  // decreaseServings() {
-  //   this.numberOfServings--;
-  //   this.updateTotalCalories();
-  // }
-  // increaseServings() {
-  //   this.numberOfServings++;
-  //   this.updateTotalCalories();
-  // }
+  onServingChange(event) {
+    if (event.target.value <= 0) {
+      event.target.value = 1;
+    }
+    this.foodEntry.numberOfServings = event.target.value;
+    this.foodEntry.totalCalories =
+      this.food.caloriesPerServing * event.target.value;
+  }
 
-  // updateTotalCalories() {
-  //   this.food.totalCalories =
-  //     this.numberOfServings * this.food.caloriesPerServing;
-  // }
-
-  // inputChanged(event) {
-  //   this.numberOfServings = event.target.value;
-  //   this.updateTotalCalories();
-  // }
+  onMealTimeChange(event) {
+    this.foodEntry.mealTime = this.mealTimes.find(
+      (mealTime) => mealTime._id === event.target.value
+    );
+  }
 
   saveChanges() {
-    // this.food.numberOfServings = this.numberOfServings;
-    this.modalController.dismiss();
+    this.diaryService.addOrUpdateFoodEntry(this.foodEntry).subscribe(() => {
+      this.modalController.dismiss({}, '', 'search-modal');
+      this.modalController.dismiss();
+    });
   }
 
   dismiss() {
-    // this.food.totalCalories =
-    //   this.food.caloriesPerServing * this.food.numberOfServings;
     this.modalController.dismiss();
   }
 }

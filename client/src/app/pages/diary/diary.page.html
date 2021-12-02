@@ -47,6 +47,19 @@
           <ion-card-title>{{meal.name}}</ion-card-title>
           <ion-badge color="primary">{{meal.calories}}</ion-badge>
         </ion-card-header>
+        <ion-card-content>
+          <ion-list lines="none">
+            <ion-item
+              class="meal-food-item"
+              button
+              *ngFor="let foodEntry of getEntriesForMeal(meal)"
+              (click)="selectFood(foodEntry)"
+            >
+              <ion-label text-wrap>{{foodEntry.foodItem.name}}</ion-label>
+              <ion-badge color="primary">{{foodEntry.totalCalories}}</ion-badge>
+            </ion-item>
+          </ion-list>
+        </ion-card-content>
       </ion-card>
     </div>
   </div>

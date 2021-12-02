@@ -24,6 +24,7 @@ export class TabsPage implements OnInit {
       backdropDismiss: true,
       showBackdrop: true,
       mode: 'ios',
+      id: 'search-modal',
     });
     return await modal.present();
   }
@@ -31,6 +32,7 @@ export class TabsPage implements OnInit {
   async openBarCodeModal() {
     const modal = await this.modalController.create({
       component: BarcodeScannerPage,
+      id: 'barcode-modal',
     });
     return await modal.present();
   }

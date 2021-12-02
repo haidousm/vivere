@@ -10,9 +10,10 @@ import { BarcodeScanner } from '@ionic-native/barcode-scanner/ngx';
 import { AppComponent } from './app.component';
 import { SearchPage } from './pages/search/search.page';
 import { AppRoutingModule } from './app-routing.module';
+import { FoodDetailsPage } from './pages/food-details/food-details.page';
 
 @NgModule({
-  declarations: [AppComponent, SearchPage],
+  declarations: [AppComponent, SearchPage, FoodDetailsPage],
   entryComponents: [SearchPage],
   imports: [
     BrowserModule,

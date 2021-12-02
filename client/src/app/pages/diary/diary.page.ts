@@ -9,6 +9,7 @@ import { MealsService } from 'src/app/services/meals.service';
 import { DiaryService } from 'src/app/services/diary.service';
 import { DiaryEntry } from 'src/app/types/DiaryEntry';
 import { DiaryCalories } from 'src/app/types/DiaryCalories';
+import { FoodEntry } from 'src/app/types/FoodEntry';
 
 @Component({
   selector: 'app-diary',
@@ -91,6 +92,7 @@ export class DiaryPage implements OnInit {
       .getDiaryEntry(day.date)
       .subscribe((diaryEntry: DiaryEntry) => {
         this.diaryEntry = diaryEntry;
+        this.diaryService.setCurrentDiaryId(this.diaryEntry._id);
         this.diaryEntry.date = new Date(diaryEntry.date);
         this.days = this.generateDaysOfTheMonth(this.diaryEntry.date);
         this.diaryService
@@ -107,21 +109,25 @@ export class DiaryPage implements OnInit {
             this.currentCalories = `${Math.floor(
               (this.caloricProgress / 100) * this.maximumCalories
             )} cal.`;
+
+            console.log(this.diaryEntry);
           });
       });
   }
 
-  async selectFood(food: FoodItem) {
+  async selectFood(foodEntry: FoodEntry) {
     const modal = await this.modalController.create({
       component: FoodDetailsPage,
       componentProps: {
-        food,
+        clickedFoodEntry: foodEntry,
+        mealTimes: this.meals,
+        currentDiaryId: this.diaryEntry._id,
       },
     });
     await modal.present();
   }
 
-  private generateDaysOfTheMonth(date: Date) {
+  generateDaysOfTheMonth(date: Date) {
     const days: Day[] = [];
     const daysInMonth = new Date(
       date.getFullYear(),
@@ -141,5 +147,11 @@ export class DiaryPage implements OnInit {
       days.push(day);
     }
     return days;
+  }
+
+  getEntriesForMeal(meal: MealTime) {
+    return this.diaryEntry.foodEntries.filter(
+      (entry: FoodEntry) => entry.mealTime._id === meal._id
+    );
   }
 }
