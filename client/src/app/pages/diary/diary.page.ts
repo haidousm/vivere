@@ -10,6 +10,8 @@ import { DiaryService } from 'src/app/services/diary.service';
 import { DiaryEntry } from 'src/app/types/DiaryEntry';
 import { DiaryCalories } from 'src/app/types/DiaryCalories';
 import { FoodEntry } from 'src/app/types/FoodEntry';
+import { UsersService } from 'src/app/services/users.service';
+import { User } from 'src/app/types/User';
 
 @Component({
   selector: 'app-diary',
@@ -29,14 +31,15 @@ export class DiaryPage implements OnInit {
   };
 
   caloricProgress = 0;
-  maximumCalories = 2000;
+  goalCalories = 2000;
   currentCalories = '';
   timerHandler: number;
 
   constructor(
     private modalController: ModalController,
     private mealsService: MealsService,
-    private diaryService: DiaryService
+    private diaryService: DiaryService,
+    private usersService: UsersService
   ) {
     this.diaryService.refreshDiary.subscribe((val) => {
       this.refreshDiary();
@@ -53,6 +56,10 @@ export class DiaryPage implements OnInit {
     this.mealsService.getMealTimes().subscribe((meals: MealTime[]) => {
       this.meals = meals.sort((a, b) => a.order - b.order);
       this.selectDay(today);
+    });
+
+    this.usersService.getCurrentUser().subscribe((user: User) => {
+      this.goalCalories = user.goalCalories;
     });
   }
 
@@ -109,9 +116,9 @@ export class DiaryPage implements OnInit {
               meal.calories = mealCalories.calories;
             });
             this.caloricProgress =
-              (diaryCalories.totalCalories / this.maximumCalories) * 100;
+              (diaryCalories.totalCalories / this.goalCalories) * 100;
             this.currentCalories = `${Math.floor(
-              (this.caloricProgress / 100) * this.maximumCalories
+              (this.caloricProgress / 100) * this.goalCalories
             )} cal.`;
           });
       });
