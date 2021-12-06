@@ -26,8 +26,13 @@ export class SearchPage implements OnInit {
   ) {}
 
   ngOnInit() {
+    // this.foodService
+    //   .getFoodItems(this.numberOfItems)
+    //   .subscribe((foodItems: FoodItem[]) => {
+    //     this.listItems = foodItems;
+    //   });
     this.foodService
-      .getFoodItems(this.numberOfItems)
+      .getRecentFoodItems(this.numberOfItems)
       .subscribe((foodItems: FoodItem[]) => {
         this.listItems = foodItems;
       });
