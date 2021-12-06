@@ -46,34 +46,41 @@ router.post("/register", async (req, res) => {
         goalWeight: req.body.goalWeight,
         goalCalories: req.body.goalCalories,
     });
-    const savedUser = await user.save();
-    const breakfast = new MealTime({
-        user: savedUser.id,
-        name: "Breakfast",
-        order: 1,
-    });
-    const lunch = new MealTime({
-        user: savedUser.id,
-        name: "Lunch",
-        order: 2,
-    });
-    const dinner = new MealTime({
-        user: savedUser.id,
-        name: "Dinner",
-        order: 3,
-    });
-    await breakfast.save();
-    await lunch.save();
-    await dinner.save();
-    req.login(savedUser, (err) => {
-        if (err) {
-            res.status(500).json({
-                message: "Error logging in",
-            });
-        } else {
-            res.json(savedUser);
-        }
-    });
+    try {
+        const savedUser = await user.save();
+        const breakfast = new MealTime({
+            user: savedUser.id,
+            name: "Breakfast",
+            order: 1,
+        });
+        const lunch = new MealTime({
+            user: savedUser.id,
+            name: "Lunch",
+            order: 2,
+        });
+        const dinner = new MealTime({
+            user: savedUser.id,
+            name: "Dinner",
+            order: 3,
+        });
+        await breakfast.save();
+        await lunch.save();
+        await dinner.save();
+
+        req.login(savedUser, (err) => {
+            if (err) {
+                res.status(500).json({
+                    message: "Error logging in",
+                });
+            } else {
+                res.json(savedUser);
+            }
+        });
+    } catch (err) {
+        res.status(500).json({
+            message: err,
+        });
+    }
 });
 
 module.exports = router;

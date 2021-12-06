@@ -46,6 +46,17 @@ export class FoodDetailsPage implements OnInit {
     this.foodEntry.numberOfServings = event.target.value;
     this.foodEntry.totalCalories =
       this.food.caloriesPerServing * event.target.value;
+
+    const elm = document.querySelector(
+      '.calorie-deats-container'
+    ) as HTMLElement;
+
+    if (elm.style.transform !== 'scale(1.2)') {
+      elm.style.transform = 'scale(1.2)';
+      setTimeout(() => {
+        elm.style.transform = 'scale(1)';
+      }, 1500);
+    }
   }
 
   onMealTimeChange(event) {

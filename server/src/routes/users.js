@@ -10,8 +10,12 @@ const User = require("../models/user");
 router.get("/me", async (req, res) => {
     if (!req.user)
         return res.status(401).send({ error: "You must be logged in" });
-    const user = await User.findById(req.user.id);
-    res.json(user);
+    try {
+        const user = await User.findById(req.user.id);
+        res.send(user);
+    } catch (err) {
+        res.status(500).send(err);
+    }
 });
 
 /**
@@ -22,11 +26,15 @@ router.get("/me", async (req, res) => {
 router.put("/me", async (req, res) => {
     if (!req.user)
         return res.status(401).send({ error: "You must be logged in" });
-    const user = await User.findByIdAndUpdate(req.user.id, req.body, {
-        new: true,
-        runValidators: true,
-    });
-    res.json(user);
+    try {
+        const user = await User.findByIdAndUpdate(req.user.id, req.body, {
+            new: true,
+            runValidators: true,
+        });
+        res.json(user);
+    } catch (err) {
+        res.status(500).send(err);
+    }
 });
 
 module.exports = router;
