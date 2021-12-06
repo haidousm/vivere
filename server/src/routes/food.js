@@ -11,10 +11,14 @@ const router = express.Router();
 router.get("/", async (req, res) => {
     const num = parseInt(req.query.num) || 10;
     const search = req.query.search || "";
-    const foodItems = await FoodItem.find({
-        name: { $regex: search, $options: "i" },
-    }).limit(num);
-    return res.json(foodItems);
+    try {
+        const foodItems = await FoodItem.find({
+            name: { $regex: search, $options: "i" },
+        }).limit(num);
+        res.json(foodItems);
+    } catch (err) {
+        res.status(500).send(err);
+    }
 });
 
 /**
