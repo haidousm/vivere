@@ -15,7 +15,7 @@ import { FoodDetailsPage } from '../food-details/food-details.page';
 })
 export class SearchPage implements OnInit {
   numberOfItems = 30;
-  foodItems: FoodItem[] = [];
+  listItems: FoodItem[] = [];
   mealTimes: MealTime[] = [];
 
   constructor(
@@ -29,7 +29,7 @@ export class SearchPage implements OnInit {
     this.foodService
       .getFoodItems(this.numberOfItems)
       .subscribe((foodItems: FoodItem[]) => {
-        this.foodItems = foodItems;
+        this.listItems = foodItems;
       });
 
     this.mealsService.getMealTimes().subscribe((meals: MealTime[]) => {
@@ -41,7 +41,7 @@ export class SearchPage implements OnInit {
     this.foodService
       .filterFoodItems(event.target.value.toLowerCase())
       .subscribe((foodItems: FoodItem[]) => {
-        this.foodItems = foodItems;
+        this.listItems = foodItems;
       });
   }
 
@@ -56,5 +56,18 @@ export class SearchPage implements OnInit {
       id: 'food-details-modal',
     });
     return await modal.present();
+  }
+
+  segmentChanged(event) {
+    if (event.detail.value === 'recents') {
+      this.foodService
+        .getRecentFoodItems(this.numberOfItems)
+        .subscribe((foodItems: FoodItem[]) => {
+          this.listItems = foodItems;
+        });
+    } else {
+      console.log('segmentChanged', event.detail.value);
+      this.listItems = [];
+    }
   }
 }
