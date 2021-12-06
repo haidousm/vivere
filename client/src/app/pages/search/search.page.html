@@ -6,7 +6,7 @@
   <ion-list>
     <ion-item *ngFor="let item of foodItems" (click)="selectItem(item)">
       <ion-label text-wrap class="item-name">{{ item.name }}</ion-label>
-      <ion-chip color="primary" mode="ios" outline="true">
+      <ion-chip mode="ios" outline="true">
         <ion-label>{{item.caloriesPerServing}}</ion-label>
       </ion-chip>
     </ion-item>
