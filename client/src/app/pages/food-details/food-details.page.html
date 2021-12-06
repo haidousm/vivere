@@ -20,7 +20,7 @@
     <ion-card-content>
       <ion-grid>
         <ion-row>
-          <ion-col>
+          <ion-col class="calorie-deats-container">
             <ion-card-title> Total Calories </ion-card-title>
             <ion-card-subtitle>
               {{ foodEntry.totalCalories }}
@@ -28,11 +28,11 @@
           </ion-col>
         </ion-row>
         <ion-row>
-          <ion-col>
+          <ion-col class="calorie-deats-container">
             <ion-card-title> Serving Size </ion-card-title>
             <ion-card-subtitle> {{ food.servingSize }} </ion-card-subtitle>
           </ion-col>
-          <ion-col>
+          <ion-col class="calorie-deats-container">
             <ion-card-title> Calories / Serving </ion-card-title>
             <ion-card-subtitle>
               {{ food.caloriesPerServing }}
@@ -47,8 +47,9 @@
       <ion-card-title> Number of Servings </ion-card-title>
     </ion-card-header>
     <ion-card-content>
-      <ion-item>
+      <ion-item lines="none">
         <ion-input
+          class="food-details-input"
           type="number"
           value="{{ foodEntry.numberOfServings }}"
           placeholder="Number of Servings"
@@ -62,8 +63,9 @@
       <ion-card-title> When did/will you eat this?</ion-card-title>
     </ion-card-header>
     <ion-card-content>
-      <ion-item>
+      <ion-item lines="none">
         <ion-select
+          class="food-details-input"
           value="{{ foodEntry.mealTime.id}}"
           interface="popover"
           placeholder="Select a meal time"
