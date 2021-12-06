@@ -8,6 +8,7 @@ export interface RegisterUser {
   height: number;
   dateOfBirth: Date;
   goalWeight: number;
+  goalCalories: number;
 }
 
 export interface User {
@@ -19,4 +20,5 @@ export interface User {
   height: number;
   dateOfBirth: Date;
   goalWeight: number;
+  goalCalories: number;
 }

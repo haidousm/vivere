@@ -26,6 +26,7 @@ export class SignupPage implements OnInit {
       height: '',
       dateOfBirth: '',
       goalWeight: '',
+      goalCalories: '',
     });
   }
 
@@ -33,6 +34,7 @@ export class SignupPage implements OnInit {
 
   signup() {
     const newUser: RegisterUser = this.signupForm.value;
+    console.log(newUser);
     this.authService.register(newUser).subscribe(
       () => {
         this.router.navigateByUrl('tabs');

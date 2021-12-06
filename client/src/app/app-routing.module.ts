@@ -29,13 +29,6 @@ const routes: Routes = [
     loadChildren: () =>
       import('./pages/tabs/tabs.module').then((m) => m.TabsPageModule),
   },
-  {
-    path: 'barcode-scanner',
-    loadChildren: () =>
-      import('./pages/barcode-scanner/barcode-scanner.module').then(
-        (m) => m.BarcodeScannerPageModule
-      ),
-  },
 ];
 
 @NgModule({

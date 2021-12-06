@@ -38,6 +38,9 @@
       <circle-progress
         [percent]="caloricProgress"
         [subtitle]="currentCalories"
+        [subtitleColor]="caloricProgress >= 100 ? 'red' : '#fff'"
+        [innerStrokeColor]="caloricProgress >= 100 ? 'red' : '#5E5CE6'"
+        [outerStrokeColor]="caloricProgress >= 100 ? 'red' : '#bf5af2'"
       ></circle-progress>
     </div>
 

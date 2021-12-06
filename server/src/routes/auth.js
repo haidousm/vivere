@@ -44,6 +44,7 @@ router.post("/register", async (req, res) => {
         weight: req.body.weight,
         dateOfBirth: req.body.dateOfBirth,
         goalWeight: req.body.goalWeight,
+        goalCalories: req.body.goalCalories,
     });
     const savedUser = await user.save();
     const breakfast = new MealTime({
