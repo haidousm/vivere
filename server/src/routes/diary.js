@@ -1,7 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const DiaryEntry = require("../models/DiaryEntry");
-const MealTime = require("../models/mealTime");
+const MealTime = require("../models/MealTime");
 const FoodItem = require("../models/FoodItem");
 const FoodEntry = require("../models/FoodEntry");
 

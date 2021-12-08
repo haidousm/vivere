@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/naming-convention */
 /* eslint-disable no-underscore-dangle */
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { IonSlides, ModalController } from '@ionic/angular';
+import { AlertController, IonSlides, ModalController } from '@ionic/angular';
 import { Day } from 'src/app/types/Day';
 import { FoodItem } from 'src/app/types/FoodItem';
 import { FoodDetailsPage } from '../food-details/food-details.page';
@@ -38,6 +38,7 @@ export class DiaryPage implements OnInit {
 
   constructor(
     private modalController: ModalController,
+    private alertController: AlertController,
     private mealsService: MealsService,
     private diaryService: DiaryService,
     private usersService: UsersService
@@ -202,5 +203,40 @@ export class DiaryPage implements OnInit {
       foodEntries.push(foodEntry);
     }
     return foodEntries;
+  }
+
+  async saveMeal(meal) {
+    const foodEntries: FoodEntry[] = this.getEntriesForMeal(meal);
+    const alert = await this.alertController.create({
+      cssClass: 'alert-blurred-background',
+      header: 'Save Meal',
+      inputs: [
+        {
+          name: 'mealName',
+          type: 'text',
+          placeholder: 'Meal Name',
+        },
+      ],
+      buttons: [
+        {
+          text: 'Cancel',
+          role: 'cancel',
+          cssClass: 'secondary',
+          handler: () => {},
+        },
+        {
+          text: 'Save',
+          handler: (data) => {
+            this.mealsService
+              .saveMeal(data.mealName, foodEntries)
+              .subscribe(() => {
+                this.refreshDiary();
+              });
+          },
+        },
+      ],
+    });
+
+    await alert.present();
   }
 }

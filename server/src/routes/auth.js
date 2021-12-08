@@ -5,7 +5,7 @@ const router = express.Router();
 
 const { generateSalt, generateHash } = require("../utils/password");
 const User = require("../models/user");
-const MealTime = require("../models/mealTime");
+const MealTime = require("../models/MealTime");
 
 /**
  * @route POST /auth/login

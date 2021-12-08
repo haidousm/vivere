@@ -47,16 +47,26 @@
     <div class="meals-container">
       <ion-card class="meal-card" *ngFor="let meal of meals">
         <ion-card-header class="meal-card-header">
-          <ion-card-title>{{meal.name}}</ion-card-title>
+          <div>
+            <ion-card-title>{{meal.name}}</ion-card-title>
+            <ion-button
+              class="save-meal-button"
+              (click)="saveMeal(meal)"
+              [disabled]="meal.calories === 0"
+            >
+              <ion-icon name="bookmark-outline"></ion-icon>
+            </ion-button>
+          </div>
+
           <ion-badge color="primary">{{meal.calories}}</ion-badge>
         </ion-card-header>
         <ion-card-content>
           <ion-list lines="none">
             <ion-item
               [ngClass]="foodEntry.id !== '' ? 'meal-food-item' : 'placeholder-meal-food-item'"
-              button
+              [button]="foodEntry.id !== ''"
               *ngFor="let foodEntry of getEntriesForMeal(meal)"
-              (click)="foodEntry.id !== '' ? selectFood(foodEntry) : ''"
+              (click)="foodEntry.id !== '' ? selectFood(foodEntry) : 'console.log()'"
             >
               <ion-label text-wrap>{{foodEntry.foodItem.name}}</ion-label>
               <ion-badge color="primary">{{foodEntry.totalCalories}}</ion-badge>
