@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/naming-convention */
 /* eslint-disable no-underscore-dangle */
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { IonSlides, ModalController } from '@ionic/angular';
@@ -178,8 +179,28 @@ export class DiaryPage implements OnInit {
     if (!this.diaryEntry) {
       return [];
     }
-    return this.diaryEntry.foodEntries.filter(
+    const foodEntries = this.diaryEntry.foodEntries.filter(
       (entry: FoodEntry) => entry.mealTime.id === meal.id
     );
+    if (foodEntries.length === 0) {
+      const foodEntry: FoodEntry = {
+        id: '',
+        mealTime: meal,
+        foodItem: {
+          id: '',
+          name: 'Use the BIG + button to add food',
+          caloriesPerServing: 0,
+          servingSize: '0',
+          importedID: '0',
+          brand: '',
+          GTIN13: '0',
+        },
+        numberOfServings: 0,
+        totalCalories: 0,
+        diaryId: '',
+      };
+      foodEntries.push(foodEntry);
+    }
+    return foodEntries;
   }
 }

@@ -53,10 +53,10 @@
         <ion-card-content>
           <ion-list lines="none">
             <ion-item
-              class="meal-food-item"
+              [ngClass]="foodEntry.id !== '' ? 'meal-food-item' : 'placeholder-meal-food-item'"
               button
               *ngFor="let foodEntry of getEntriesForMeal(meal)"
-              (click)="selectFood(foodEntry)"
+              (click)="foodEntry.id !== '' ? selectFood(foodEntry) : ''"
             >
               <ion-label text-wrap>{{foodEntry.foodItem.name}}</ion-label>
               <ion-badge color="primary">{{foodEntry.totalCalories}}</ion-badge>
