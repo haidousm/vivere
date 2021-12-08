@@ -10,7 +10,9 @@ const Meal = require("../models/Meal");
  */
 
 router.get("/me", async (req, res) => {
-    const meals = await Meal.find({ user: req.user.id });
+    const meals = await Meal.find({ user: req.user.id }).populate(
+        "foodEntries"
+    );
     res.json(meals);
 });
 

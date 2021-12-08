@@ -20,6 +20,12 @@ export class MealsService {
     );
   }
 
+  getMeals() {
+    return this.httpClient.get(`${this.apiUrl}/me`, {
+      withCredentials: true,
+    });
+  }
+
   getMealTimes() {
     return this.httpClient.get(`${this.apiUrl}/me/times`, {
       withCredentials: true,

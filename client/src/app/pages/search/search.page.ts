@@ -5,6 +5,7 @@ import { DiaryService } from 'src/app/services/diary.service';
 import { FoodService } from 'src/app/services/food.service';
 import { MealsService } from 'src/app/services/meals.service';
 import { FoodItem } from 'src/app/types/FoodItem';
+import { Meal } from 'src/app/types/Meal';
 import { MealTime } from 'src/app/types/MealTime';
 import { FoodDetailsPage } from '../food-details/food-details.page';
 
@@ -15,7 +16,7 @@ import { FoodDetailsPage } from '../food-details/food-details.page';
 })
 export class SearchPage implements OnInit {
   numberOfItems = 30;
-  listItems: FoodItem[] = [];
+  listItems: Array<FoodItem | Meal> = [];
   mealTimes: MealTime[] = [];
 
   constructor(
@@ -26,11 +27,6 @@ export class SearchPage implements OnInit {
   ) {}
 
   ngOnInit() {
-    // this.foodService
-    //   .getFoodItems(this.numberOfItems)
-    //   .subscribe((foodItems: FoodItem[]) => {
-    //     this.listItems = foodItems;
-    //   });
     this.foodService
       .getRecentFoodItems(this.numberOfItems)
       .subscribe((foodItems: FoodItem[]) => {
@@ -50,18 +46,21 @@ export class SearchPage implements OnInit {
       });
   }
 
-  async selectItem(food: FoodItem) {
-    const modal = await this.modalController.create({
-      component: FoodDetailsPage,
-      backdropDismiss: true,
-      componentProps: {
-        food,
-        mealTimes: this.mealTimes,
-        currentDiaryId: this.diaryService.getCurrentDiaryId(),
-      },
-      id: 'food-details-modal',
-    });
-    return await modal.present();
+  async selectItem(food: FoodItem | Meal) {
+    if (this.isFoodItem(food)) {
+      const modal = await this.modalController.create({
+        component: FoodDetailsPage,
+        backdropDismiss: true,
+        componentProps: {
+          food,
+          mealTimes: this.mealTimes,
+          currentDiaryId: this.diaryService.getCurrentDiaryId(),
+        },
+        id: 'food-details-modal',
+      });
+      return await modal.present();
+    } else {
+    }
   }
 
   segmentChanged(event) {
@@ -72,8 +71,29 @@ export class SearchPage implements OnInit {
           this.listItems = foodItems;
         });
     } else {
-      console.log('segmentChanged', event.detail.value);
-      this.listItems = [];
+      this.mealsService.getMeals().subscribe((meals: Meal[]) => {
+        this.listItems = meals;
+      });
     }
+  }
+
+  isFoodItem(item: FoodItem | Meal) {
+    return 'brand' in item;
+  }
+
+  calculateMealCalories(item: Meal) {
+    console.log(item);
+    return item.foodEntries.reduce(
+      (acc, foodItem) => acc + foodItem.totalCalories,
+      0
+    );
+  }
+
+  asFoodItem(item: FoodItem | Meal) {
+    return item as FoodItem;
+  }
+
+  asMeal(item: FoodItem | Meal) {
+    return item as Meal;
   }
 }
