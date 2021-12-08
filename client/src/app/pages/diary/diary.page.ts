@@ -99,6 +99,7 @@ export class DiaryPage implements OnInit {
   selectDay(day: Day) {
     this.days.forEach((d) => (d.selected = false));
     day.selected = true;
+    this.slider.slideTo(day.date.getDate() - 1);
     this.diaryService
       .getDiaryEntry(day.date)
       .subscribe((diaryEntry: DiaryEntry) => {
@@ -127,6 +128,7 @@ export class DiaryPage implements OnInit {
   async selectFood(foodEntry: FoodEntry) {
     const modal = await this.modalController.create({
       component: FoodDetailsPage,
+      backdropDismiss: true,
       componentProps: {
         clickedFoodEntry: foodEntry,
         mealTimes: this.meals,

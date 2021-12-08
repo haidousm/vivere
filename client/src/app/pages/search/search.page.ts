@@ -53,6 +53,7 @@ export class SearchPage implements OnInit {
   async selectItem(food: FoodItem) {
     const modal = await this.modalController.create({
       component: FoodDetailsPage,
+      backdropDismiss: true,
       componentProps: {
         food,
         mealTimes: this.mealTimes,
