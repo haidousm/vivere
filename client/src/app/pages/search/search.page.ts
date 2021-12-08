@@ -8,6 +8,7 @@ import { FoodItem } from 'src/app/types/FoodItem';
 import { Meal } from 'src/app/types/Meal';
 import { MealTime } from 'src/app/types/MealTime';
 import { FoodDetailsPage } from '../food-details/food-details.page';
+import { MealDetailsPage } from '../meal-details/meal-details.page';
 
 @Component({
   selector: 'app-search',
@@ -46,13 +47,13 @@ export class SearchPage implements OnInit {
       });
   }
 
-  async selectItem(food: FoodItem | Meal) {
-    if (this.isFoodItem(food)) {
+  async selectItem(item: FoodItem | Meal) {
+    if (this.isFoodItem(item)) {
       const modal = await this.modalController.create({
         component: FoodDetailsPage,
         backdropDismiss: true,
         componentProps: {
-          food,
+          food: item,
           mealTimes: this.mealTimes,
           currentDiaryId: this.diaryService.getCurrentDiaryId(),
         },
@@ -60,6 +61,17 @@ export class SearchPage implements OnInit {
       });
       return await modal.present();
     } else {
+      const modal = await this.modalController.create({
+        component: MealDetailsPage,
+        backdropDismiss: true,
+        componentProps: {
+          meal: item,
+          mealTimes: this.mealTimes,
+          currentDiaryId: this.diaryService.getCurrentDiaryId(),
+        },
+        id: 'meal-details-modal',
+      });
+      return await modal.present();
     }
   }
 
@@ -82,7 +94,6 @@ export class SearchPage implements OnInit {
   }
 
   calculateMealCalories(item: Meal) {
-    console.log(item);
     return item.foodEntries.reduce(
       (acc, foodItem) => acc + foodItem.totalCalories,
       0

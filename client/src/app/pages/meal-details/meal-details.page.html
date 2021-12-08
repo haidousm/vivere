@@ -1,0 +1,94 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-button (click)="dismiss()">
+        <ion-icon slot="icon-only" name="close"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+    <ion-buttons slot="end">
+      <ion-button color="primary" (click)="saveChanges()">
+        <ion-icon slot="icon-only" name="checkmark-circle-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+<!-- <ion-content>
+  <ion-card>
+    <ion-card-header>
+      <ion-card-title> {{ food.name }} </ion-card-title>
+    </ion-card-header>
+    <ion-card-content>
+      <ion-grid>
+        <ion-row>
+          <ion-col class="calorie-deats-container">
+            <ion-card-title> Total Calories </ion-card-title>
+            <ion-card-subtitle>
+              {{ foodEntry.totalCalories }}
+            </ion-card-subtitle>
+          </ion-col>
+        </ion-row>
+        <ion-row>
+          <ion-col class="calorie-deats-container">
+            <ion-card-title> Serving Size </ion-card-title>
+            <ion-card-subtitle> {{ food.servingSize }} </ion-card-subtitle>
+          </ion-col>
+          <ion-col class="calorie-deats-container">
+            <ion-card-title> Calories / Serving </ion-card-title>
+            <ion-card-subtitle>
+              {{ food.caloriesPerServing }}
+            </ion-card-subtitle>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+    </ion-card-content>
+  </ion-card>
+  <ion-card>
+    <ion-card-header>
+      <ion-card-title> Number of Servings </ion-card-title>
+    </ion-card-header>
+    <ion-card-content>
+      <ion-item lines="none">
+        <ion-input
+          class="food-details-input"
+          type="number"
+          value="{{ foodEntry.numberOfServings }}"
+          placeholder="Number of Servings"
+          (ionChange)="onServingChange($event)"
+        ></ion-input>
+      </ion-item>
+    </ion-card-content>
+  </ion-card>
+  <ion-card>
+    <ion-card-header>
+      <ion-card-title> When did/will you eat this?</ion-card-title>
+    </ion-card-header>
+    <ion-card-content>
+      <ion-item lines="none">
+        <ion-select
+          class="food-details-input"
+          value="{{ foodEntry.mealTime.id}}"
+          interface="popover"
+          placeholder="Select a meal time"
+          (ionChange)="onMealTimeChange($event)"
+        >
+          <ion-select-option
+            *ngFor="let meal of mealTimes"
+            value="{{ meal.id}}"
+          >
+            {{ meal.name }}
+          </ion-select-option>
+        </ion-select>
+      </ion-item>
+    </ion-card-content>
+  </ion-card>
+  <ion-button
+    color="danger"
+    size="medium"
+    expand="block"
+    style="margin: 15px 30px"
+    (click)="deleteMeal()"
+    *ngIf="foodEntry.id !== '' "
+  >
+    Delete
+  </ion-button>
+</ion-content> -->
