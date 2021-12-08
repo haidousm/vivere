@@ -1,5 +1,6 @@
 const express = require("express");
 const router = express.Router();
+const passport = require("passport");
 const DiaryEntry = require("../models/DiaryEntry");
 const MealTime = require("../models/MealTime");
 const FoodItem = require("../models/FoodItem");
@@ -12,35 +13,39 @@ const FoodEntry = require("../models/FoodEntry");
  * @access Private
  */
 
-router.get("/:date", async (req, res) => {
-    const date = req.params.date;
-    const diaryEntry = await DiaryEntry.findOne({
-        user: req.user.id,
-        date: date,
-    }).populate({
-        path: "foodEntries",
-        populate: [
-            {
-                path: "mealTime",
-                model: "MealTime",
-            },
-            {
-                path: "foodItem",
-                model: "FoodItem",
-            },
-        ],
-    });
-
-    if (!diaryEntry) {
-        const newDiaryEntry = new DiaryEntry({
+router.get(
+    "/:date",
+    passport.authenticate("jwt", { session: false }),
+    async (req, res) => {
+        const date = req.params.date;
+        const diaryEntry = await DiaryEntry.findOne({
             user: req.user.id,
             date: date,
+        }).populate({
+            path: "foodEntries",
+            populate: [
+                {
+                    path: "mealTime",
+                    model: "MealTime",
+                },
+                {
+                    path: "foodItem",
+                    model: "FoodItem",
+                },
+            ],
         });
-        await newDiaryEntry.save();
-        return res.send(newDiaryEntry);
+
+        if (!diaryEntry) {
+            const newDiaryEntry = new DiaryEntry({
+                user: req.user.id,
+                date: date,
+            });
+            await newDiaryEntry.save();
+            return res.send(newDiaryEntry);
+        }
+        res.send(diaryEntry);
     }
-    res.send(diaryEntry);
-});
+);
 
 /**
  * @route GET /diary/calories/:diaryEntryId
@@ -49,52 +54,57 @@ router.get("/:date", async (req, res) => {
  * @access Private
  */
 
-router.get("/calories/:diaryEntryId", async (req, res) => {
-    if (!req.user) {
-        return res.status(401).send("Unauthorized");
-    }
-    const diaryEntryId = req.params.diaryEntryId;
-    const diaryEntry = await DiaryEntry.findById(diaryEntryId).populate({
-        path: "foodEntries",
-        populate: {
-            path: "mealTime",
-            model: "MealTime",
-        },
-    });
-
-    if (!diaryEntry) {
-        res.status(404).send("Diary entry not found");
-    }
-    const foodEntries = diaryEntry.foodEntries;
-    const totalCalories = foodEntries.reduce(
-        (totalCalories, foodEntry) => totalCalories + foodEntry.totalCalories,
-        0
-    );
-    const meals = await MealTime.find({ user: req.user.id });
-
-    const mealsCalories = [];
-    meals.forEach((meal) => {
-        const mealCalories = {
-            mealId: meal.id,
-            calories: 0,
-        };
-        mealCalories.calories = foodEntries.reduce(
-            (totalCalories, foodEntry) => {
-                if (foodEntry.mealTime.id === meal.id) {
-                    return totalCalories + foodEntry.totalCalories;
-                }
-                return totalCalories;
+router.get(
+    "/calories/:diaryEntryId",
+    passport.authenticate("jwt", { session: false }),
+    async (req, res) => {
+        if (!req.user) {
+            return res.status(401).send("Unauthorized");
+        }
+        const diaryEntryId = req.params.diaryEntryId;
+        const diaryEntry = await DiaryEntry.findById(diaryEntryId).populate({
+            path: "foodEntries",
+            populate: {
+                path: "mealTime",
+                model: "MealTime",
             },
+        });
+
+        if (!diaryEntry) {
+            res.status(404).send("Diary entry not found");
+        }
+        const foodEntries = diaryEntry.foodEntries;
+        const totalCalories = foodEntries.reduce(
+            (totalCalories, foodEntry) =>
+                totalCalories + foodEntry.totalCalories,
             0
         );
-        mealsCalories.push(mealCalories);
-    });
+        const meals = await MealTime.find({ user: req.user.id });
 
-    res.json({
-        totalCalories,
-        mealsCalories,
-    });
-});
+        const mealsCalories = [];
+        meals.forEach((meal) => {
+            const mealCalories = {
+                mealId: meal.id,
+                calories: 0,
+            };
+            mealCalories.calories = foodEntries.reduce(
+                (totalCalories, foodEntry) => {
+                    if (foodEntry.mealTime.id === meal.id) {
+                        return totalCalories + foodEntry.totalCalories;
+                    }
+                    return totalCalories;
+                },
+                0
+            );
+            mealsCalories.push(mealCalories);
+        });
+
+        res.json({
+            totalCalories,
+            mealsCalories,
+        });
+    }
+);
 
 /**
  * @route POST /diary/food
@@ -102,35 +112,39 @@ router.get("/calories/:diaryEntryId", async (req, res) => {
  * @access Private
  */
 
-router.post("/food", async (req, res) => {
-    const foodItem = await FoodItem.findById(req.body.foodItem.id);
-    const diaryEntry = await DiaryEntry.findById(req.body.diaryId);
-    const mealTime = await MealTime.findById(req.body.mealTime.id);
+router.post(
+    "/food",
+    passport.authenticate("jwt", { session: false }),
+    async (req, res) => {
+        const foodItem = await FoodItem.findById(req.body.foodItem.id);
+        const diaryEntry = await DiaryEntry.findById(req.body.diaryId);
+        const mealTime = await MealTime.findById(req.body.mealTime.id);
 
-    let foodEntry = {};
-    if (req.body.id) {
-        foodEntry = await FoodEntry.findById(req.body.id);
-        foodEntry.foodItem = foodItem;
-        foodEntry.numberOfServings = req.body.numberOfServings;
-        foodEntry.totalCalories = req.body.totalCalories;
-        foodEntry.mealTime = mealTime;
-        await foodEntry.save();
-    } else {
-        foodEntry = new FoodEntry({
-            foodItem: foodItem,
-            numberOfServings: req.body.numberOfServings,
-            totalCalories: req.body.totalCalories,
-            mealTime: mealTime,
-            date: diaryEntry.date,
-            user: req.user.id,
-        });
-        await foodEntry.save();
-        diaryEntry.foodEntries.push(foodEntry);
-        await diaryEntry.save();
+        let foodEntry = {};
+        if (req.body.id) {
+            foodEntry = await FoodEntry.findById(req.body.id);
+            foodEntry.foodItem = foodItem;
+            foodEntry.numberOfServings = req.body.numberOfServings;
+            foodEntry.totalCalories = req.body.totalCalories;
+            foodEntry.mealTime = mealTime;
+            await foodEntry.save();
+        } else {
+            foodEntry = new FoodEntry({
+                foodItem: foodItem,
+                numberOfServings: req.body.numberOfServings,
+                totalCalories: req.body.totalCalories,
+                mealTime: mealTime,
+                date: diaryEntry.date,
+                user: req.user.id,
+            });
+            await foodEntry.save();
+            diaryEntry.foodEntries.push(foodEntry);
+            await diaryEntry.save();
+        }
+
+        res.json(foodEntry);
     }
-
-    res.json(foodEntry);
-});
+);
 
 /**
  * @route POST /diary/food/batch
@@ -138,33 +152,37 @@ router.post("/food", async (req, res) => {
  * @access Private
  */
 
-router.post("/food/batch", async (req, res) => {
-    const foodEntries = req.body.foodEntries;
-    const diaryEntry = await DiaryEntry.findById(req.body.diaryId);
+router.post(
+    "/food/batch",
+    passport.authenticate("jwt", { session: false }),
+    async (req, res) => {
+        const foodEntries = req.body.foodEntries;
+        const diaryEntry = await DiaryEntry.findById(req.body.diaryId);
 
-    let newFoodEntries = [];
+        let newFoodEntries = [];
 
-    for (foodEntry of foodEntries) {
-        const foodItem = foodEntry.foodItem;
-        const mealTime = foodEntry.mealTime;
+        for (foodEntry of foodEntries) {
+            const foodItem = foodEntry.foodItem;
+            const mealTime = foodEntry.mealTime;
 
-        const newFoodEntry = new FoodEntry({
-            foodItem: foodItem,
-            numberOfServings: foodEntry.numberOfServings,
-            totalCalories: foodEntry.totalCalories,
-            mealTime: mealTime,
-            date: diaryEntry.date,
-            user: req.user.id,
-        });
+            const newFoodEntry = new FoodEntry({
+                foodItem: foodItem,
+                numberOfServings: foodEntry.numberOfServings,
+                totalCalories: foodEntry.totalCalories,
+                mealTime: mealTime,
+                date: diaryEntry.date,
+                user: req.user.id,
+            });
 
-        await newFoodEntry.save();
-        diaryEntry.foodEntries.push(newFoodEntry);
+            await newFoodEntry.save();
+            diaryEntry.foodEntries.push(newFoodEntry);
+        }
+
+        await diaryEntry.save();
+
+        res.json(diaryEntry);
     }
-
-    await diaryEntry.save();
-
-    res.json(diaryEntry);
-});
+);
 
 /**
  * @route DELETE /diary/food/:diaryEntryId/:foodEntryId
@@ -172,13 +190,17 @@ router.post("/food/batch", async (req, res) => {
  * @access Private
  */
 
-router.delete("/food/:diaryEntryId/:foodEntryId", async (req, res) => {
-    const diaryEntry = await DiaryEntry.findById(req.params.diaryEntryId);
-    const foodEntry = await FoodEntry.findById(req.params.foodEntryId);
-    diaryEntry.foodEntries.pull(foodEntry);
-    await diaryEntry.save();
-    await foodEntry.remove();
-    res.json(diaryEntry);
-});
+router.delete(
+    "/food/:diaryEntryId/:foodEntryId",
+    passport.authenticate("jwt", { session: false }),
+    async (req, res) => {
+        const diaryEntry = await DiaryEntry.findById(req.params.diaryEntryId);
+        const foodEntry = await FoodEntry.findById(req.params.foodEntryId);
+        diaryEntry.foodEntries.pull(foodEntry);
+        await diaryEntry.save();
+        await foodEntry.remove();
+        res.json(diaryEntry);
+    }
+);
 
 module.exports = router;

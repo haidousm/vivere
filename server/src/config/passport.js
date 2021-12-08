@@ -3,7 +3,8 @@ const ExtractJWT = require("passport-jwt").ExtractJwt;
 
 const User = require("../models/user");
 
-const PUB_KEY = fs.readFileSync(`${__dirname}/keys/public.key`);
+const fs = require("fs");
+const PUB_KEY = fs.readFileSync(`${__dirname}/keys/public.pem`);
 
 const jwtOptions = {
     jwtFromRequest: ExtractJWT.fromAuthHeaderAsBearerToken(),

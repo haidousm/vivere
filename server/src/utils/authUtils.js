@@ -1,7 +1,8 @@
 const crypto = require("crypto");
 const jwt = require("jsonwebtoken");
+const fs = require("fs");
 
-const PRIV_KEY = fs.readFileSync(`${__dirname}../config/keys/private.key`);
+const PRIV_KEY = fs.readFileSync(`${__dirname}/../config/keys/private.pem`);
 
 const validatePassword = (password, hash, salt) => {
     const hashPassword = crypto
