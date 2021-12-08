@@ -12,6 +12,13 @@ export class FoodService {
   getFoodItems(numberOfItems: number) {
     return this.httpClient.get(`${this.apiUrl}/?num=${numberOfItems}`);
   }
+
+  getRecentFoodItems(numberOfItems: number) {
+    return this.httpClient.get(`${this.apiUrl}/recent?num=${numberOfItems}`, {
+      withCredentials: true,
+    });
+  }
+
   filterFoodItems(filter: string) {
     return this.httpClient.get(`${this.apiUrl}/?num=100&search=${filter}`);
   }

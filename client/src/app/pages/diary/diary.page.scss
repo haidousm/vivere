@@ -64,6 +64,17 @@
   border-bottom: 1px solid #fff;
 }
 
+.meal-card-header > div {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.save-meal-button {
+  --background: none;
+  margin-left: 3px;
+}
+
 .meal-food-item {
   margin: 15px;
   font-size: 0.85rem;
@@ -72,6 +83,16 @@
   --color: #fff;
 }
 
+.placeholder-meal-food-item {
+  margin: 15px;
+  font-size: 0.85rem;
+  --background: gray;
+  --border-radius: 10px;
+  --color: #fff;
+}
+
+.placeholder-meal-food-item ion-label,
 .meal-food-item ion-label {
-  margin: 5px 10px;
+  margin: 8px 10px;
+  font-size: 0.75rem;
 }

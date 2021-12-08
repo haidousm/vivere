@@ -38,17 +38,26 @@
       <ion-slide class="signup-part signup-part-2">
         <ion-item>
           <ion-label position="floating">Weight</ion-label>
-          <ion-input type="number" formControlName="weight"></ion-input>
+          <ion-input
+            type="number"
+            formControlName="weight"
+            (ionChange)="updateGoalCalories()"
+          ></ion-input>
         </ion-item>
         <ion-item>
           <ion-label position="floating">Height</ion-label>
-          <ion-input type="number" formControlName="height"></ion-input>
+          <ion-input
+            type="number"
+            formControlName="height"
+            (ionChange)="updateGoalCalories()"
+          ></ion-input>
         </ion-item>
         <ion-item>
           <ion-label position="floating">Birthdate</ion-label>
           <ion-datetime
             displayFormat="MM/DD/YYYY"
             formControlName="dateOfBirth"
+            (ionChange)="updateGoalCalories()"
           ></ion-datetime>
         </ion-item>
         <ion-item>

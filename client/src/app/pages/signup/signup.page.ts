@@ -34,7 +34,6 @@ export class SignupPage implements OnInit {
 
   signup() {
     const newUser: RegisterUser = this.signupForm.value;
-    console.log(newUser);
     this.authService.register(newUser).subscribe(
       () => {
         this.router.navigateByUrl('tabs');
@@ -43,5 +42,26 @@ export class SignupPage implements OnInit {
         console.log(err);
       }
     );
+  }
+
+  updateGoalCalories() {
+    const weight = this.signupForm.value.weight;
+    const height = this.signupForm.value.height;
+    const birthDate = this.signupForm.value.dateOfBirth;
+    if (weight && height && birthDate) {
+      const age = this.calculateAge(birthDate);
+      const goalCalories = this.calculateGoalCalories(weight, height, age);
+
+      this.signupForm.patchValue({ goalCalories });
+    }
+  }
+  calculateGoalCalories(weight: number, height: number, age: number) {
+    const BMR = 66 + 13.7 * weight + 5 * height - 6.8 * age;
+    return Math.round(BMR * 1.2);
+  }
+  calculateAge(birthDate: string) {
+    const date = new Date(birthDate);
+    const today = new Date();
+    return today.getFullYear() - date.getFullYear();
   }
 }

@@ -1,7 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const DiaryEntry = require("../models/DiaryEntry");
-const MealTime = require("../models/mealTime");
+const MealTime = require("../models/MealTime");
 const FoodItem = require("../models/FoodItem");
 const FoodEntry = require("../models/FoodEntry");
 
@@ -127,6 +127,40 @@ router.post("/food", async (req, res) => {
     }
 
     res.json(foodEntry);
+});
+
+/**
+ * @route POST /diary/food/batch
+ * @desc Creates a batch of food entries for a specific diary entry
+ * @access Private
+ */
+
+router.post("/food/batch", async (req, res) => {
+    const foodEntries = req.body.foodEntries;
+    const diaryEntry = await DiaryEntry.findById(req.body.diaryId);
+
+    let newFoodEntries = [];
+
+    for (foodEntry of foodEntries) {
+        const foodItem = foodEntry.foodItem;
+        const mealTime = foodEntry.mealTime;
+
+        const newFoodEntry = new FoodEntry({
+            foodItem: foodItem,
+            numberOfServings: foodEntry.numberOfServings,
+            totalCalories: foodEntry.totalCalories,
+            mealTime: mealTime,
+            date: diaryEntry.date,
+            user: req.user.id,
+        });
+
+        await newFoodEntry.save();
+        diaryEntry.foodEntries.push(newFoodEntry);
+    }
+
+    await diaryEntry.save();
+
+    res.json(diaryEntry);
 });
 
 /**

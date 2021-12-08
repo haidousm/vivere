@@ -1,6 +1,7 @@
+/* eslint-disable @typescript-eslint/naming-convention */
 /* eslint-disable no-underscore-dangle */
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { IonSlides, ModalController } from '@ionic/angular';
+import { AlertController, IonSlides, ModalController } from '@ionic/angular';
 import { Day } from 'src/app/types/Day';
 import { FoodItem } from 'src/app/types/FoodItem';
 import { FoodDetailsPage } from '../food-details/food-details.page';
@@ -37,11 +38,12 @@ export class DiaryPage implements OnInit {
 
   constructor(
     private modalController: ModalController,
+    private alertController: AlertController,
     private mealsService: MealsService,
     private diaryService: DiaryService,
     private usersService: UsersService
   ) {
-    this.diaryService.refreshDiary.subscribe((val) => {
+    this.diaryService.refreshDiary.subscribe(() => {
       this.refreshDiary();
     });
   }
@@ -99,6 +101,7 @@ export class DiaryPage implements OnInit {
   selectDay(day: Day) {
     this.days.forEach((d) => (d.selected = false));
     day.selected = true;
+    this.slider.slideTo(day.date.getDate() - 1);
     this.diaryService
       .getDiaryEntry(day.date)
       .subscribe((diaryEntry: DiaryEntry) => {
@@ -127,6 +130,7 @@ export class DiaryPage implements OnInit {
   async selectFood(foodEntry: FoodEntry) {
     const modal = await this.modalController.create({
       component: FoodDetailsPage,
+      backdropDismiss: true,
       componentProps: {
         clickedFoodEntry: foodEntry,
         mealTimes: this.meals,
@@ -147,6 +151,9 @@ export class DiaryPage implements OnInit {
         selected: true,
       };
       this.selectDay(day);
+      this.usersService.getCurrentUser().subscribe((user: User) => {
+        this.goalCalories = user.goalCalories;
+      });
     }
   }
 
@@ -176,8 +183,63 @@ export class DiaryPage implements OnInit {
     if (!this.diaryEntry) {
       return [];
     }
-    return this.diaryEntry.foodEntries.filter(
+    const foodEntries = this.diaryEntry.foodEntries.filter(
       (entry: FoodEntry) => entry.mealTime.id === meal.id
     );
+    if (foodEntries.length === 0) {
+      const foodEntry: FoodEntry = {
+        id: '',
+        mealTime: meal,
+        foodItem: {
+          id: '',
+          name: 'Use the BIG + button to add food',
+          caloriesPerServing: 0,
+          servingSize: '0',
+          importedID: '0',
+          brand: '',
+          GTIN13: '0',
+        },
+        numberOfServings: 0,
+        totalCalories: 0,
+        diaryId: '',
+      };
+      foodEntries.push(foodEntry);
+    }
+    return foodEntries;
+  }
+
+  async saveMeal(meal) {
+    const foodEntries: FoodEntry[] = this.getEntriesForMeal(meal);
+    const alert = await this.alertController.create({
+      cssClass: 'alert-blurred-background',
+      header: 'Save Meal',
+      inputs: [
+        {
+          name: 'mealName',
+          type: 'text',
+          placeholder: 'Meal Name',
+        },
+      ],
+      buttons: [
+        {
+          text: 'Cancel',
+          role: 'cancel',
+          cssClass: 'secondary',
+          handler: () => {},
+        },
+        {
+          text: 'Save',
+          handler: (data) => {
+            this.mealsService
+              .saveMeal(data.mealName, foodEntries)
+              .subscribe(() => {
+                this.refreshDiary();
+              });
+          },
+        },
+      ],
+    });
+
+    await alert.present();
   }
 }

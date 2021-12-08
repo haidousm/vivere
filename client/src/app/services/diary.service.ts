@@ -35,6 +35,19 @@ export class DiaryService {
     });
   }
 
+  addFoodEntries(foodEntries: FoodEntry[]) {
+    return this.httpClient.post(
+      `${this.apiUrl}/food/batch`,
+      {
+        foodEntries,
+        diaryId: this.getCurrentDiaryId(),
+      },
+      {
+        withCredentials: true,
+      }
+    );
+  }
+
   deleteFoodEntry(diaryEntryId, foodEntryId) {
     return this.httpClient.delete(
       `${this.apiUrl}/food/${diaryEntryId}/${foodEntryId}`,

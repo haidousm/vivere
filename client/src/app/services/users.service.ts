@@ -19,4 +19,10 @@ export class UsersService {
       withCredentials: true,
     });
   }
+
+  logout() {
+    return this.httpClient.get(`${this.apiUrl}/logout`, {
+      withCredentials: true,
+    });
+  }
 }
