@@ -43,7 +43,7 @@ export class DiaryPage implements OnInit {
     private diaryService: DiaryService,
     private usersService: UsersService
   ) {
-    this.diaryService.refreshDiary.subscribe((val) => {
+    this.diaryService.refreshDiary.subscribe(() => {
       this.refreshDiary();
     });
   }
@@ -151,6 +151,9 @@ export class DiaryPage implements OnInit {
         selected: true,
       };
       this.selectDay(day);
+      this.usersService.getCurrentUser().subscribe((user: User) => {
+        this.goalCalories = user.goalCalories;
+      });
     }
   }
 
