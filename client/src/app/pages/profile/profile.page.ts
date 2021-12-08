@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { UsersService } from 'src/app/services/users.service';
 import { User } from 'src/app/types/User';
 
@@ -15,7 +16,7 @@ export class ProfilePage implements OnInit {
   userWeight: number;
   userGoalWeight: number;
   userGoalCalories: number;
-  constructor(private usersService: UsersService) {}
+  constructor(private usersService: UsersService, private router: Router) {}
   ngOnInit() {
     this.usersService.getCurrentUser().subscribe((user: User) => {
       this.user = user;
@@ -40,5 +41,11 @@ export class ProfilePage implements OnInit {
       this.userWeight === this.user.weight &&
       this.userGoalWeight === this.user.goalWeight &&
       this.userGoalCalories === this.user.goalCalories;
+  }
+
+  logout() {
+    this.usersService.logout().subscribe(() => {
+      this.router.navigateByUrl('splashscreens');
+    });
   }
 }

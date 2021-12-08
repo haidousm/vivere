@@ -37,4 +37,14 @@ router.put("/me", async (req, res) => {
     }
 });
 
+/**
+ * @route GET /users/logout
+ * @desc Logout user
+ * @access Private
+ */
+router.get("/logout", (req, res) => {
+    req.logout();
+    res.send({ message: "You are logged out" });
+});
+
 module.exports = router;
