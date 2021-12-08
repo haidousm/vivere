@@ -10,6 +10,7 @@ const Meal = require("../models/Meal");
  */
 
 router.get("/me", async (req, res) => {
+    if (!req.user) return res.status(401).send("Unauthorized");
     const meals = await Meal.find({ user: req.user.id }).populate({
         path: "foodEntries",
         model: "FoodEntry",
@@ -64,6 +65,7 @@ router.delete("/:id", async (req, res) => {
  */
 
 router.get("/me/times", async (req, res) => {
+    if (!req.user) return res.status(401).send("Unauthorized");
     const meals = await MealTime.find({ user: req.user.id });
     if (!meals) return res.status(404).json({ msg: "No meals found" });
     res.json(meals);

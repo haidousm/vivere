@@ -20,10 +20,11 @@ connectDB();
 const app = express();
 const PORT = process.env.PORT;
 
-// setup cors
 app.use(
     cors({
-        origin: "http://localhost:8100",
+        // origin: "capacitor://192.168.0.172",
+        // credentials: true,
+        origin: true,
         credentials: true,
     })
 );

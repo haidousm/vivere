@@ -50,6 +50,9 @@ router.get("/:date", async (req, res) => {
  */
 
 router.get("/calories/:diaryEntryId", async (req, res) => {
+    if (!req.user) {
+        return res.status(401).send("Unauthorized");
+    }
     const diaryEntryId = req.params.diaryEntryId;
     const diaryEntry = await DiaryEntry.findById(diaryEntryId).populate({
         path: "foodEntries",
