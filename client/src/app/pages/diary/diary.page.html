@@ -69,7 +69,9 @@
               (click)="foodEntry.id !== '' ? selectFood(foodEntry) : 'console.log()'"
             >
               <ion-label text-wrap>{{foodEntry.foodItem.name}}</ion-label>
-              <ion-badge color="primary">{{foodEntry.totalCalories}}</ion-badge>
+              <ion-badge color="primary" *ngIf="foodEntry.id !== ''"
+                >{{foodEntry.totalCalories}}</ion-badge
+              >
             </ion-item>
           </ion-list>
         </ion-card-content>
