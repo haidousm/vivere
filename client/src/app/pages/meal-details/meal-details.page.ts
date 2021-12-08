@@ -21,11 +21,11 @@ export class MealDetailsPage implements OnInit {
   ngOnInit() {}
 
   saveChanges() {
-    // this.diaryService.addOrUpdateFoodEntry(this.foodEntry).subscribe(() => {
-    //   this.modalController.dismiss();
-    //   this.modalController.dismiss({}, '', 'search-modal').catch((e) => {});
-    //   this.diaryService.refreshDiary.next(Math.random());
-    // });
+    this.diaryService.addFoodEntries(this.meal.foodEntries).subscribe(() => {
+      this.modalController.dismiss();
+      this.modalController.dismiss({}, '', 'search-modal').catch((e) => {});
+      this.diaryService.refreshDiary.next(Math.random());
+    });
   }
 
   deleteMeal() {

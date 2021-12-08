@@ -130,6 +130,40 @@ router.post("/food", async (req, res) => {
 });
 
 /**
+ * @route POST /diary/food/batch
+ * @desc Creates a batch of food entries for a specific diary entry
+ * @access Private
+ */
+
+router.post("/food/batch", async (req, res) => {
+    const foodEntries = req.body.foodEntries;
+    const diaryEntry = await DiaryEntry.findById(req.body.diaryId);
+
+    let newFoodEntries = [];
+
+    for (foodEntry of foodEntries) {
+        const foodItem = foodEntry.foodItem;
+        const mealTime = foodEntry.mealTime;
+
+        const newFoodEntry = new FoodEntry({
+            foodItem: foodItem,
+            numberOfServings: foodEntry.numberOfServings,
+            totalCalories: foodEntry.totalCalories,
+            mealTime: mealTime,
+            date: diaryEntry.date,
+            user: req.user.id,
+        });
+
+        await newFoodEntry.save();
+        diaryEntry.foodEntries.push(newFoodEntry);
+    }
+
+    await diaryEntry.save();
+
+    res.json(diaryEntry);
+});
+
+/**
  * @route DELETE /diary/food/:diaryEntryId/:foodEntryId
  * @desc Delete a food entry for a specific diary entry
  * @access Private
