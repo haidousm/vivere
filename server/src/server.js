@@ -22,8 +22,6 @@ const PORT = process.env.PORT;
 
 app.use(
     cors({
-        // origin: "capacitor://192.168.0.172",
-        // credentials: true,
         origin: true,
         credentials: true,
     })
