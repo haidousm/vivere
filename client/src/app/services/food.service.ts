@@ -14,9 +14,7 @@ export class FoodService {
   }
 
   getRecentFoodItems(numberOfItems: number) {
-    return this.httpClient.get(`${this.apiUrl}/recent?num=${numberOfItems}`, {
-      withCredentials: true,
-    });
+    return this.httpClient.get(`${this.apiUrl}/recent?num=${numberOfItems}`);
   }
 
   filterFoodItems(filter: string) {

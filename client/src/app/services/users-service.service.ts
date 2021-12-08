@@ -11,6 +11,6 @@ export class UsersServiceService {
   constructor(private httpClient: HttpClient) {}
 
   getCurrentUser() {
-    return this.httpClient.get(`${this.apiUrl}/me`, { withCredentials: true });
+    return this.httpClient.get(`${this.apiUrl}/me`);
   }
 }

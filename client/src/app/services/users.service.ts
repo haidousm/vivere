@@ -11,18 +11,14 @@ export class UsersService {
   constructor(private httpClient: HttpClient) {}
 
   getCurrentUser() {
-    return this.httpClient.get(`${this.apiUrl}/me`, { withCredentials: true });
+    return this.httpClient.get(`${this.apiUrl}/me`);
   }
 
   updateUser(user: User) {
-    return this.httpClient.put(`${this.apiUrl}/me`, user, {
-      withCredentials: true,
-    });
+    return this.httpClient.put(`${this.apiUrl}/me`, user);
   }
 
   logout() {
-    return this.httpClient.get(`${this.apiUrl}/logout`, {
-      withCredentials: true,
-    });
+    return this.httpClient.get(`${this.apiUrl}/logout`);
   }
 }
