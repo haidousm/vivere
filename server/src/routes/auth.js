@@ -3,7 +3,12 @@ const passport = require("passport");
 
 const router = express.Router();
 
-const { generateSalt, generateHash } = require("../utils/password");
+const {
+    generateSalt,
+    generateHash,
+    issueJWT,
+    validatePassword,
+} = require("../utils/authUtils");
 const User = require("../models/user");
 const MealTime = require("../models/MealTime");
 
@@ -13,17 +18,17 @@ const MealTime = require("../models/MealTime");
  * @access Public
  */
 
-router.post("/login", passport.authenticate("local"), (req, res) => {
-    if (req.user) {
-        res.status(200).json({
-            message: "User logged in successfully",
-            user: req.user,
-        });
-    } else {
-        res.status(401).json({
-            message: "Invalid credentials",
-        });
+router.post("/login", async (req, res) => {
+    const user = await User.findOne({ email: req.body.email });
+    if (!user) {
+        return res.status(400).json({ message: "User not found" });
     }
+
+    if (validatePassword(req.body.password, user.hash, user.salt)) {
+        const token = issueJWT(user);
+        return res.status(200).json({ token });
+    }
+    return res.status(400).json({ message: "Invalid credentials" });
 });
 
 /**
@@ -67,15 +72,8 @@ router.post("/register", async (req, res) => {
         await lunch.save();
         await dinner.save();
 
-        req.login(savedUser, (err) => {
-            if (err) {
-                res.status(500).json({
-                    message: "Error logging in",
-                });
-            } else {
-                res.json(savedUser);
-            }
-        });
+        const token = issueJWT(user);
+        res.status(200).send(token);
     } catch (err) {
         res.status(500).json({
             message: err,
