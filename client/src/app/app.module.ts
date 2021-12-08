@@ -11,9 +11,10 @@ import { AppComponent } from './app.component';
 import { SearchPage } from './pages/search/search.page';
 import { AppRoutingModule } from './app-routing.module';
 import { FoodDetailsPage } from './pages/food-details/food-details.page';
+import { MealDetailsPage } from './pages/meal-details/meal-details.page';
 
 @NgModule({
-  declarations: [AppComponent, SearchPage, FoodDetailsPage],
+  declarations: [AppComponent, SearchPage, FoodDetailsPage, MealDetailsPage],
   entryComponents: [SearchPage],
   imports: [
     BrowserModule,

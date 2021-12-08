@@ -17,4 +17,8 @@ const MealSchema = new mongoose.Schema({
     },
 });
 
+MealSchema.set("toJSON", {
+    virtuals: true,
+});
+
 module.exports = mongoose.model("Meal", MealSchema);

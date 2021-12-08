@@ -10,9 +10,20 @@ const Meal = require("../models/Meal");
  */
 
 router.get("/me", async (req, res) => {
-    const meals = await Meal.find({ user: req.user.id }).populate(
-        "foodEntries"
-    );
+    const meals = await Meal.find({ user: req.user.id }).populate({
+        path: "foodEntries",
+        model: "FoodEntry",
+        populate: [
+            {
+                path: "mealTime",
+                model: "MealTime",
+            },
+            {
+                path: "foodItem",
+                model: "FoodItem",
+            },
+        ],
+    });
     res.json(meals);
 });
 
@@ -31,6 +42,19 @@ router.post("/", async (req, res) => {
     });
     await meal.save();
     res.json(meal);
+});
+
+/**
+ * @route DELETE /meals/:id
+ * @desc Delete a meal
+ * @access Private
+ */
+
+router.delete("/:id", async (req, res) => {
+    const meal = await Meal.findById(req.params.id);
+    if (!meal) return res.status(404).json({ msg: "Meal not found" });
+    await meal.delete();
+    res.json({ msg: "Meal deleted" });
 });
 
 /**

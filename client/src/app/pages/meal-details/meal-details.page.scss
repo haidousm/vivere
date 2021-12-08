@@ -1,0 +1,28 @@
+ion-card-title {
+  font-size: 1rem;
+}
+
+.calorie-deats-container {
+  background-color: #e35ce6;
+  border-radius: 3px;
+  margin: 5px;
+}
+
+.calorie-deats-container ion-card-title {
+  font-size: 0.5rem;
+}
+
+.calorie-deats-container ion-card-subtitle {
+  --color: #fff;
+}
+
+.food-item-col {
+  background-color: #e35ce6;
+  border-radius: 3px;
+  margin: 5px;
+}
+
+.food-item-col ion-card-title {
+  font-size: 0.75rem;
+  color: #fff;
+}
