@@ -3,6 +3,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { RouteReuseStrategy } from '@angular/router';
 
 import { IonicModule, IonicRouteStrategy } from '@ionic/angular';
+import { IonicStorageModule } from '@ionic/storage-angular';
 import { HttpClientModule } from '@angular/common/http';
 
 import { BarcodeScanner } from '@ionic-native/barcode-scanner/ngx';
@@ -21,6 +22,7 @@ import { MealDetailsPage } from './pages/meal-details/meal-details.page';
     IonicModule.forRoot(),
     AppRoutingModule,
     HttpClientModule,
+    IonicStorageModule.forRoot(),
   ],
   providers: [
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
