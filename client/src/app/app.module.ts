@@ -1,3 +1,4 @@
+/* eslint-disable no-underscore-dangle */
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { RouteReuseStrategy } from '@angular/router';
@@ -15,6 +16,7 @@ import { FoodDetailsPage } from './pages/food-details/food-details.page';
 import { MealDetailsPage } from './pages/meal-details/meal-details.page';
 import { AuthInterceptor } from './services/interceptors/auth.interceptor';
 import { Drivers } from '@ionic/storage';
+import * as CordovaSQLiteDriver from 'localforage-cordovasqlitedriver';
 
 @NgModule({
   declarations: [AppComponent, SearchPage, FoodDetailsPage, MealDetailsPage],
@@ -26,7 +28,11 @@ import { Drivers } from '@ionic/storage';
     HttpClientModule,
     IonicStorageModule.forRoot({
       name: '__mydb',
-      driverOrder: [Drivers.LocalStorage, Drivers.IndexedDB],
+      driverOrder: [
+        CordovaSQLiteDriver._driver,
+        Drivers.IndexedDB,
+        Drivers.LocalStorage,
+      ],
     }),
   ],
   providers: [
