@@ -11,31 +11,21 @@ export class MealsService {
   constructor(private httpClient: HttpClient) {}
 
   saveMeal(mealName, foodEntries) {
-    return this.httpClient.post(
-      `${this.apiUrl}`,
-      {
-        name: mealName,
-        foodEntries,
-      },
-      { withCredentials: true }
-    );
+    return this.httpClient.post(`${this.apiUrl}`, {
+      name: mealName,
+      foodEntries,
+    });
   }
 
   getMeals() {
-    return this.httpClient.get(`${this.apiUrl}/me`, {
-      withCredentials: true,
-    });
+    return this.httpClient.get(`${this.apiUrl}/me`);
   }
 
   getMealTimes() {
-    return this.httpClient.get(`${this.apiUrl}/me/times`, {
-      withCredentials: true,
-    });
+    return this.httpClient.get(`${this.apiUrl}/me/times`);
   }
 
   deleteMeal(meal: Meal) {
-    return this.httpClient.delete(`${this.apiUrl}/${meal.id}`, {
-      withCredentials: true,
-    });
+    return this.httpClient.delete(`${this.apiUrl}/${meal.id}`);
   }
 }

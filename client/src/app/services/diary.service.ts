@@ -18,42 +18,27 @@ export class DiaryService {
 
   getDiaryEntry(date: Date) {
     const dateString = date.toLocaleString().split(',')[0].replace(/\//g, '-');
-    return this.httpClient.get(`${this.apiUrl}/${dateString}`, {
-      withCredentials: true,
-    });
+    return this.httpClient.get(`${this.apiUrl}/${dateString}`);
   }
 
   getTotalCalories(entryId: string) {
-    return this.httpClient.get(`${this.apiUrl}/calories/${entryId}`, {
-      withCredentials: true,
-    });
+    return this.httpClient.get(`${this.apiUrl}/calories/${entryId}`);
   }
 
   addOrUpdateFoodEntry(foodEntry: FoodEntry) {
-    return this.httpClient.post(`${this.apiUrl}/food`, foodEntry, {
-      withCredentials: true,
-    });
+    return this.httpClient.post(`${this.apiUrl}/food`, foodEntry);
   }
 
   addFoodEntries(foodEntries: FoodEntry[]) {
-    return this.httpClient.post(
-      `${this.apiUrl}/food/batch`,
-      {
-        foodEntries,
-        diaryId: this.getCurrentDiaryId(),
-      },
-      {
-        withCredentials: true,
-      }
-    );
+    return this.httpClient.post(`${this.apiUrl}/food/batch`, {
+      foodEntries,
+      diaryId: this.getCurrentDiaryId(),
+    });
   }
 
   deleteFoodEntry(diaryEntryId, foodEntryId) {
     return this.httpClient.delete(
-      `${this.apiUrl}/food/${diaryEntryId}/${foodEntryId}`,
-      {
-        withCredentials: true,
-      }
+      `${this.apiUrl}/food/${diaryEntryId}/${foodEntryId}`
     );
   }
 

@@ -34,14 +34,7 @@ export class SignupPage implements OnInit {
 
   signup() {
     const newUser: RegisterUser = this.signupForm.value;
-    this.authService.register(newUser).subscribe(
-      () => {
-        this.router.navigateByUrl('tabs');
-      },
-      (err) => {
-        console.log(err);
-      }
-    );
+    this.authService.register(newUser);
   }
 
   updateGoalCalories() {

@@ -20,10 +20,9 @@ connectDB();
 const app = express();
 const PORT = process.env.PORT;
 
-// setup cors
 app.use(
     cors({
-        origin: "http://localhost:8100",
+        origin: true,
         credentials: true,
     })
 );

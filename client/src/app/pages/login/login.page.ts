@@ -12,8 +12,7 @@ export class LoginPage implements OnInit {
   loginForm: FormGroup;
   constructor(
     private formBuilder: FormBuilder,
-    private authService: AuthService,
-    private router: Router
+    private authService: AuthService
   ) {
     this.loginForm = this.formBuilder.group({
       email: '',
@@ -24,15 +23,9 @@ export class LoginPage implements OnInit {
   ngOnInit() {}
 
   login() {
-    this.authService
-      .login(this.loginForm.value.email, this.loginForm.value.password)
-      .subscribe(
-        () => {
-          this.router.navigateByUrl('tabs');
-        },
-        (err) => {
-          console.log(err);
-        }
-      );
+    this.authService.login(
+      this.loginForm.value.email,
+      this.loginForm.value.password
+    );
   }
 }
