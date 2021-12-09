@@ -33,3 +33,8 @@
   --background: none !important;
   backdrop-filter: blur(10px);
 }
+
+ion-item {
+  --border-width: 0;
+  --inner-border-width: 0;
+}
