@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { DiaryService } from 'src/app/services/diary.service';
+import { StorageService } from 'src/app/services/storage.service';
 import { UsersService } from 'src/app/services/users.service';
 import { User } from 'src/app/types/User';
 
@@ -20,6 +21,7 @@ export class ProfilePage implements OnInit {
   constructor(
     private usersService: UsersService,
     private diaryService: DiaryService,
+    private storageService: StorageService,
     private router: Router
   ) {}
   ngOnInit() {
@@ -52,6 +54,7 @@ export class ProfilePage implements OnInit {
   logout() {
     this.usersService.logout().subscribe(() => {
       this.router.navigateByUrl('splashscreens');
+      this.storageService.remove('token');
     });
   }
 }

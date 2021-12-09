@@ -15,7 +15,7 @@
       </ion-col>
     </ion-row>
   </ion-grid>
-  <ion-list>
+  <ion-list lines="none">
     <ion-item *ngFor="let item of listItems" (click)="selectItem(item)">
       <ion-label text-wrap class="item-name">{{ item.name }}</ion-label>
       <ion-chip mode="ios" outline="true">

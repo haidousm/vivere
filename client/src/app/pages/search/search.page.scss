@@ -1,7 +1,17 @@
+ion-list {
+  background-color: rgb(26, 26, 26) !important;
+}
+
 .item-name {
   font-size: 0.85rem;
 }
 
 ion-chip {
   background: #e35ce6;
+}
+
+ion-item {
+  margin: 8px;
+  --border-radius: 5px !important;
+  --padding: 10px 5px !important;
 }
