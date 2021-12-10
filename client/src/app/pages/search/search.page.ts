@@ -90,7 +90,7 @@ export class SearchPage implements OnInit {
   }
 
   isFoodItem(item: FoodItem | Meal) {
-    return 'brand' in item;
+    return 'importedID' in item;
   }
 
   calculateMealCalories(item: Meal) {

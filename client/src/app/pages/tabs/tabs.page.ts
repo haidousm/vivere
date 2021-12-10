@@ -35,6 +35,7 @@ export class TabsPage implements OnInit {
   async openSearchModal() {
     const modal = await this.modalController.create({
       component: SearchPage,
+      cssClass: 'search-modal',
       swipeToClose: true,
       presentingElement: this.routerOutlet.nativeEl,
       backdropDismiss: true,
