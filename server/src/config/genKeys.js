@@ -14,6 +14,10 @@ const fs = require("fs");
         },
     });
 
+    if (!fs.existsSync(`${__dirname}/keys/`)) {
+        fs.mkdirSync(`${__dirname}/keys/`);
+    }
+
     fs.writeFileSync(`${__dirname}/keys/public.pem`, keyPair.publicKey);
     fs.writeFileSync(`${__dirname}/keys/private.pem`, keyPair.privateKey);
 })();
