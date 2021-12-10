@@ -24,7 +24,7 @@ export class BarcodeScannerPage implements OnInit {
       torchOn: false,
       prompt: 'Place a barcode inside the scan area',
       resultDisplayDuration: 500,
-      formats: 'EAN_13',
+      formats: 'GTIN_13',
       orientation: 'portrait',
     };
 

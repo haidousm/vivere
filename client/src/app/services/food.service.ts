@@ -20,4 +20,8 @@ export class FoodService {
   filterFoodItems(filter: string) {
     return this.httpClient.get(`${this.apiUrl}/?num=100&search=${filter}`);
   }
+
+  getFoodItemByGTIN(gtin: string) {
+    return this.httpClient.get(`${this.apiUrl}/${gtin}`);
+  }
 }
