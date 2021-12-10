@@ -1,1 +1,1 @@
-web: npm run src/config/genKeys.js && npm start
+web: npm run gen-keys && npm start
