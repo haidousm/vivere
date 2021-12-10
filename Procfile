@@ -1,1 +1,1 @@
-web: cd server && npm start
+web: cd server && npm run src/config/genKeys.js && npm start
