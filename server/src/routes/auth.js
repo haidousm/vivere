@@ -7,7 +7,7 @@ const {
     issueJWT,
     validatePassword,
 } = require("../utils/authUtils");
-const User = require("../models/user");
+const User = require("../models/User");
 const MealTime = require("../models/MealTime");
 
 /**
