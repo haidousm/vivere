@@ -1,7 +1,12 @@
 /* eslint-disable @typescript-eslint/naming-convention */
 /* eslint-disable no-underscore-dangle */
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { AlertController, IonSlides, ModalController } from '@ionic/angular';
+import {
+  AlertController,
+  IonRouterOutlet,
+  IonSlides,
+  ModalController,
+} from '@ionic/angular';
 import { Day } from 'src/app/types/Day';
 import { FoodItem } from 'src/app/types/FoodItem';
 import { FoodDetailsPage } from '../food-details/food-details.page';
@@ -13,6 +18,7 @@ import { DiaryCalories } from 'src/app/types/DiaryCalories';
 import { FoodEntry } from 'src/app/types/FoodEntry';
 import { UsersService } from 'src/app/services/users.service';
 import { User } from 'src/app/types/User';
+import { SearchPage } from '../search/search.page';
 
 @Component({
   selector: 'app-diary',
@@ -41,7 +47,8 @@ export class DiaryPage implements OnInit {
     private alertController: AlertController,
     private mealsService: MealsService,
     private diaryService: DiaryService,
-    private usersService: UsersService
+    private usersService: UsersService,
+    private routerOutlet: IonRouterOutlet
   ) {
     this.diaryService.refreshDiary.subscribe(() => {
       this.refreshDiary();
@@ -128,6 +135,9 @@ export class DiaryPage implements OnInit {
   }
 
   async selectFood(foodEntry: FoodEntry) {
+    if (foodEntry.id === '') {
+      return await this.openSearchModal();
+    }
     const modal = await this.modalController.create({
       component: FoodDetailsPage,
       backdropDismiss: true,
@@ -192,7 +202,7 @@ export class DiaryPage implements OnInit {
         mealTime: meal,
         foodItem: {
           id: '',
-          name: 'Use the BIG + button to add food',
+          name: 'Use the BIG + button to add food or click here!',
           caloriesPerServing: 0,
           servingSize: '0',
           importedID: '0',
@@ -241,5 +251,18 @@ export class DiaryPage implements OnInit {
     });
 
     await alert.present();
+  }
+
+  async openSearchModal() {
+    const modal = await this.modalController.create({
+      component: SearchPage,
+      swipeToClose: true,
+      presentingElement: this.routerOutlet.nativeEl,
+      backdropDismiss: true,
+      showBackdrop: true,
+      mode: 'ios',
+      id: 'search-modal',
+    });
+    return await modal.present();
   }
 }

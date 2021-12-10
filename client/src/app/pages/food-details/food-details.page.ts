@@ -40,7 +40,7 @@ export class FoodDetailsPage implements OnInit {
   }
 
   onServingChange(event) {
-    if (event.target.value <= 0) {
+    if (event.target.value < 0) {
       event.target.value = 1;
     }
     this.foodEntry.numberOfServings = event.target.value;
@@ -66,6 +66,10 @@ export class FoodDetailsPage implements OnInit {
   }
 
   saveChanges() {
+    if (this.foodEntry.numberOfServings <= 0) {
+      return this.dismiss();
+    }
+
     this.diaryService.addOrUpdateFoodEntry(this.foodEntry).subscribe(() => {
       this.modalController.dismiss();
       this.modalController.dismiss({}, '', 'search-modal').catch((e) => {});
