@@ -71,7 +71,7 @@ router.post("/register", async (req, res) => {
         await dinner.save();
 
         const token = issueJWT(user);
-        res.status(200).send(token);
+        res.status(200).send({ token });
     } catch (err) {
         res.status(500).json({
             message: err,
