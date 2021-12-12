@@ -24,7 +24,7 @@ Server is already hosted over at [api-vivere.herokuapp.com](https://api-vivere.h
 
 ### Database
 
-Database is currently being hosted over at MongoDB Cloud and is 90MBs+ (because of _**500,000**_ food items!), and as such it is not stored within this repository.
+Database is currently being hosted over at MongoDB Cloud and is 90MBs+ (because of _**500,000+**_ food items!), and as such it is not stored within this repository.
 
 Contact me if you'd like me to email you the database dump and/or walk you through the collections over zoom.
 
@@ -33,6 +33,6 @@ Contact me if you'd like me to email you the database dump and/or walk you throu
 Either create a new account or use:
 
 ```
-email: haidousm@gmail.com
+email: moussa.haidous@lau.edu
 password: 123
 ```
