@@ -1,5 +1,13 @@
 # Vivere - Strive to live
 
+### a calorie tracking app (think MyFitnessPal) built with Ionic & Node
+
+---
+
+#### CSC498x - Mobile App Development Final Project
+
+---
+
 ## Requirements (or at least what works for me)
 
 -   Node v16.4.0
